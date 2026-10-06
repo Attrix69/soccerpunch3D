@@ -376,36 +376,10 @@
     m.matrix.set(_ax.x, _ay.x, _az.x, A.x, _ax.y, _ay.y, _az.y, A.y, _ax.z, _ay.z, _az.z, A.z, 0, 0, 0, 1);
   }
 
-  /* ---------- torse : anneaux en super-ellipse, du bassin aux épaules ---------- */
-  const _rc = V3(), _rx = V3(), _ry = V3(), _rz = V3(), _tp = V3();
-  function updTorso(rg, po) {
-    const L = rg.L, BU = L.b, bw = BU[1], pos = rg.tgeo.attributes.position.array;
-    const wH = BU[3] + po.spread * 0.5 + 0.9, wS = BU[2] + 1.7, dH = 4.7, dS = 5.1 * (bw > 1 ? 1.12 : 1);
-    for (let r = 0; r < TNR; r++) {
-      let u = (r - 1) / (TNR - 3), sc = 1, off = 0;
-      if (r === 0) { u = 0; sc = 0.62; off = -2.6; } else if (r === TNR - 1) { u = 1; sc = 0.42; off = 2.6; }
-      const e = u * u * (3 - 2 * u);
-      _rc.lerpVectors(JT.Hc, JT.Sc, u);
-      _rx.lerpVectors(FR.hX, FR.sX, e).normalize(); _ry.copy(FR.hY); _rz.lerpVectors(FR.hZ, FR.sZ, e).normalize();
-      _rc.addScaledVector(_ry, off).addScaledVector(_rx, 0.9 * Math.sin(Math.PI * u));
-      const w = (wH + (wS - wH) * Math.pow(u, 1.4) - 0.6 * Math.sin(Math.PI * u * 0.8)) * sc, dz = (dH + (dS - dH) * u + 0.7 * Math.sin(Math.PI * u)) * sc;
-      for (let s = 0; s <= TNS; s++) {
-        const ph = s / TNS * Math.PI * 2 - Math.PI / 2, cf = se(Math.cos(ph), 3.2), sf = se(Math.sin(ph), 3.2);
-        _tp.copy(_rc).addScaledVector(_rx, cf * dz).addScaledVector(_rz, -sf * w);
-        const k = (r * (TNS + 1) + s) * 3; pos[k] = _tp.x; pos[k + 1] = _tp.y; pos[k + 2] = _tp.z;
-      }
-    }
-    rg.tgeo.attributes.position.needsUpdate = true;
-    rg.tgeo.computeVertexNormals();
-    const n = rg.tgeo.attributes.normal.array; // couture : normales moyennées
-    for (let r = 0; r < TNR; r++) { const a = r * (TNS + 1) * 3, b = (r * (TNS + 1) + TNS) * 3; for (let c = 0; c < 3; c++) { const v = (n[a + c] + n[b + c]) / 2; n[a + c] = v; n[b + c] = v; } }
-    rg.tgeo.attributes.normal.needsUpdate = true;
-  }
-
   /* ---------- accessoires animés : capes, robe, queues, pendule ---------- */
   const _q1 = V3(), _q2 = V3(), _q3 = V3(), _q4 = V3();
   function updCloth(rg, po, i, now) {
-    const L = rg.L, BU = L.b, shW = BU[2], flow = Math.min(1, po.amp || 0), wag = Math.sin(now * 9 + i * 1.3);
+    const L = rg.L, BU = L.b, shW = rg.sk ? 7.4 : BU[2], hpW0 = rg.sk ? 5.6 : BU[3], flow = Math.min(1, po.amp || 0), wag = Math.sin(now * 9 + i * 1.3);
     const sl = Math.sin(po.lean), cl = Math.cos(po.lean), hipD = po.hipD;
     if (rg.cape) { // cape / manteau : accrochée aux épaules, elle flotte derrière quand il court
       const c = rg.cape, pos = c.g.attributes.position.array, mantle = L.pe.prop === 'mantle';
@@ -425,8 +399,8 @@
       const c = rg.robe, pos = c.g.attributes.position.array;
       for (let r = 0; r <= c.rows; r++) for (let k = 0; k <= c.cols; k++) {
         const v = r / c.rows, a = k / c.cols * Math.PI * 2, ca = Math.cos(a), sa = Math.sin(a);
-        jPh(ca * 5 * cl, hipD - 3 + ca * 5 * sl, sa * (BU[3] + 1.9), _q1);
-        jP(-2 - 4 * flow + ca * 7, hipD + 17 - 2 * flow, sa * (BU[3] + 5.5), _q2);
+        jPh(ca * 5 * cl, hipD - 3 + ca * 5 * sl, sa * (hpW0 + 1.9), _q1);
+        jP(-2 - 4 * flow + ca * 7, hipD + 17 - 2 * flow, sa * (hpW0 + 5.5), _q2);
         _q1.lerp(_q2, v);
         const j = (r * (c.cols + 1) + k) * 3; pos[j] = _q1.x; pos[j + 1] = _q1.y; pos[j + 2] = _q1.z;
       }
@@ -446,39 +420,28 @@
   }
 
   /* ---------- tout le personnage pour une image ---------- */
-  const _yaw = new THREE.Euler();
   function updRig(rg, p, i, dt) {
-    const L = rg.L, now = performance.now() / 1000, po = poseOf(p, i);
-    joints(L, po);
-    const S2 = rg.seg, hipY = -po.hipD;
+    const now = performance.now() / 1000, po = poseOf(p, i);
+    joints(rg.L, po);
+    const hipY = -po.hipD;
     // corps entier : roulade (saltos, K.O. qui vrille) autour des hanches, plongeon du gardien sur le côté
     rg.body.position.set(0, hipY, 0); rg.body.rotation.set(po.dive * 1.25, 0, -po.srot, 'XYZ'); rg.inner.position.set(0, -hipY, 0);
-    setSeg(S2.thighR, JT.hjR, JT.knR, 13, FR.hZ, FR.hX); setSeg(S2.shinR, JT.knR, JT.ftR, 13.5, FR.hZ, FR.hX); setSegX(S2.footR, JT.ftR, JT.toR, FR.hZ);
-    setSeg(S2.thighL, JT.hjL, JT.knL, 13, FR.hZ, FR.hX); setSeg(S2.shinL, JT.knL, JT.ftL, 13.5, FR.hZ, FR.hX); setSegX(S2.footL, JT.ftL, JT.toL, FR.hZ);
-    setSeg(S2.uarmR, JT.sjR, JT.elR, 10.5, FR.sZ, FR.sX); setSeg(S2.farmR, JT.elR, JT.hdR, 10, FR.sZ, FR.sX); setSeg(S2.handR, JT.hdR, _q1.copy(JT.hdR).multiplyScalar(2).sub(JT.elR), 0, FR.sZ, FR.sX);
-    setSeg(S2.uarmL, JT.sjL, JT.elL, 10.5, FR.sZ, FR.sX); setSeg(S2.farmL, JT.elL, JT.hdL, 10, FR.sZ, FR.sX); setSeg(S2.handL, JT.hdL, _q1.copy(JT.hdL).multiplyScalar(2).sub(JT.elL), 0, FR.sZ, FR.sX);
-    setSeg(S2.neck, JT.hc, JT.nk, 0, FR.sZ, FR.sX); // le cou part de la tête vers les épaules
-    _q2.subVectors(JT.hc, JT.nk).normalize(); _q3.copy(FR.sX).addScaledVector(_q2, -FR.sX.dot(_q2)).normalize(); _q4.crossVectors(_q3, _q2);
-    setFrame(S2.head, JT.hc, _q3, _q2, _q4);
-    setFrame(rg.chest, JT.Sc, FR.sX, FR.sY, FR.sZ); setFrame(rg.hips, JT.Hc, FR.hX, FR.hY, FR.hZ);
-    updTorso(rg, po); updCloth(rg, po, i, now);
+    return updRigSkin(rg, p, i, po, now);
+  }
+  function rigRoot(rg, p, i, po) {
+    const L = rg.L;
     // racine : position, orientation (le corps pivote, cf. FA), écrasement / étirement
     const sq = i < 8 && !app.drafting ? SQ[i] : 0, sc = U3 * L.b[0];
     let hop = 0; if (HOP[i] > 0) hop = Math.sin(Math.PI * clamp(1 - HOP[i] / 0.32, 0, 1)) * 26;
     rg.root.position.set(p.x * U3, (p.z + hop) * U3, p.y * U3);
     rg.root.rotation.set(0, Math.atan2(-po.fy, po.fx), 0);
     rg.root.scale.set(sc * (1 + sq * 0.55), sc * (1 - sq), sc * (1 + sq * 0.55));
-    // visage : bouche, yeux K.O., clignements, blessures
-    const blv = BLV(p.dmg || 0), blink = (((now + i * 1.7) % 3.7) < 0.12) ? 1 : 0, spiral = L.f.spiral ? ((now * 12) | 0) : 0;
-    const fk = (po.mouth ? 1 : 0) + '|' + (po.eyes === 0 ? 1 : 0) + '|' + blv + '|' + blink + '|' + spiral + '|' + GORE;
-    if (fk !== rg.fkey) { rg.fkey = fk; paintFace(rg, { mouth: po.mouth, ko: po.eyes === 0, blv, blink, t: now, look: 0 }); }
-    const dirt = i < 8 ? Math.round((DIRT[i] || 0) * 8) / 8 : 0, jk = dirt + '|' + (blv >= 2 ? blv : 0) + '|' + GORE;
-    if (jk !== rg.jkey) { rg.jkey = jk; paintJersey(rg, L, PAL[rg.team], rg.gk, dirt, blv); }
+  }
+  function rigFlash(rg, p, i) {
     // éclat d'impact (blanc puis rouge), invulnérabilité (clignote)
     const hf = i < 8 ? (HITT[i] - performance.now()) / 1000 : 0;
     const em = hf > 0 ? Math.min(0.95, hf * 10) : 0, emc = hf > 0.05 ? 0xffffff : 0xff2a1e;
     const blinkOff = p.inv && ((performance.now() / 70) | 0) % 2;
     if (rg.em !== em || rg.emc !== emc) { rg.em = em; rg.emc = emc; for (const m of rg.mats) { m.emissive.setHex(emc); m.emissiveIntensity = em * 1.4; } }
     if (rg.bo !== blinkOff) { rg.bo = blinkOff; for (const m of rg.mats) m.opacity = blinkOff ? 0.4 : 1; }
-    return po;
   }

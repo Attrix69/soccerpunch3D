@@ -1,9 +1,17 @@
 # Crédits des assets 3D
 
-Tous les modèles 3D de `assets/models/` proviennent de **[3dassets.dev](https://3dassets.dev)** et sont publiés sous licence
-**CC0 1.0 Universal** (domaine public) : aucune attribution n'est exigée, cette liste est donnée par courtoisie.
+Tous les modèles 3D du jeu sont sous licence **CC0 1.0 Universal** (domaine public) : aucune attribution n'est exigée, cette liste est donnée par courtoisie.
 
-Les personnages, le ballon, la pelouse, les panneaux LED, la foule et le tifo sont générés dans le code (aucun asset externe).
+## Personnages (`assets/chars/`)
+
+| Fichier | Contenu | Auteur / source | Licence |
+|---|---|---|---|
+| `body_m.glb` | Corps rigé (65 os), visage sculpté, yeux et sourcils | **Quaternius**, [Universal Base Characters](https://quaternius.com/packs/universalbasecharacters.html) | CC0 1.0 |
+| `hair.glb` | Coiffures (SimpleParted, Buzzed, Long, Buns…) et barbe | **Quaternius**, Universal Base Characters | CC0 1.0 |
+
+Les fichiers sont générés par `tools/prep_chars.py` (textures réduites, cartes inutiles retirées). Le reste des personnages (maillots, shorts, chaussettes, gants, expressions du visage, couvre-chefs, capes) est construit par le code à partir de ces corps ; les crampons viennent de 3dassets.dev (`cleat.glb` ci-dessous).
+
+## Stade et effets (`assets/models/`, [3dassets.dev](https://3dassets.dev))
 
 | Fichier | Modèle | Source | Licence |
 |---|---|---|---|
@@ -44,3 +52,6 @@ Les personnages, le ballon, la pelouse, les panneaux LED, la foule et le tifo so
 | `fx_shockcres.glb` | Shockwave crescent (VFX Mesh Library) | [vfx-mesh-library-shockwave-crescent-f03758cf](https://3dassets.dev/assets/vfx-mesh-library-shockwave-crescent-f03758cf) | CC0 1.0 Universal |
 | `fx_plasma.glb` | Plasma teardrop (VFX Mesh Library) | [vfx-mesh-library-plasma-teardrop-ddd69157](https://3dassets.dev/assets/vfx-mesh-library-plasma-teardrop-ddd69157) | CC0 1.0 Universal |
 | `fx_ember.glb` | Ember cluster (VFX Mesh Library) | [vfx-mesh-library-ember-cluster-3e828dd2](https://3dassets.dev/assets/vfx-mesh-library-ember-cluster-3e828dd2) | CC0 1.0 Universal |
+| `cleat.glb` | Pair of football cleats (American Football Stadium Kit) | [american-football-stadium-kit-cleat-pair-bc704c39](https://3dassets.dev/assets/american-football-stadium-kit-cleat-pair-bc704c39) | CC0 1.0 Universal |
+
+Les panneaux LED, la pelouse, la foule et le tifo sont générés dans le code (aucun asset externe).

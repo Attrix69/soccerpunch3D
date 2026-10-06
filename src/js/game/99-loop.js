@@ -138,6 +138,7 @@
     try { await Promise.race([Promise.all([document.fonts.load('20px Anton'), document.fonts.load('italic 800 16px "Barlow Condensed"')]), new Promise(r => setTimeout(r, 2500))]); } catch (e) { /* polices système */ }
     await step(0.1, 'Chargement des modèles 3D…');
     await loadModels(u => { bootBar.style.width = Math.round(10 + u * 45) + '%'; });
+    skPrep(); // squelette des joueurs (si les modèles sont là)
     await step(0.58, 'Construction du stade…');
     buildStadium();
     await step(0.76, 'Les joueurs entrent sur la pelouse…');

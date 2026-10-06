@@ -7,3 +7,4 @@ export { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 export { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 export { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 export { mergeGeometries, mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+export * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils.js';
