@@ -9704,15 +9704,16 @@ var SFXD = {
   }
   // contour d'un maillage animé par un squelette : même coque inversée que les autres personnages, déformée par les os
   const OUTLINE_SK = new THREE.ShaderMaterial({
-    uniforms: OUTL_U, side: THREE.BackSide,
-    vertexShader: 'uniform float uPx;uniform vec2 uRes;\n#include <common>\n#include <skinning_pars_vertex>\nvoid main(){\n#include <beginnormal_vertex>\n#include <skinbase_vertex>\n#include <skinnormal_vertex>\n#include <begin_vertex>\n#include <skinning_vertex>\nvec4 cp=projectionMatrix*modelViewMatrix*vec4(transformed,1.);vec3 n=normalize(normalMatrix*objectNormal);vec2 d=(projectionMatrix*vec4(n,0.)).xy;float l=length(d);d=l>1e-5?d/l:vec2(0.);cp.xy+=d*uPx*cp.w*2./uRes;gl_Position=cp;}',
+    uniforms: { uPx: OUTL_U.uPx, uRes: OUTL_U.uRes, uK: { value: 1 } }, side: THREE.BackSide,
+    vertexShader: 'uniform float uPx,uK;uniform vec2 uRes;\n#include <common>\n#include <skinning_pars_vertex>\nvoid main(){\n#include <beginnormal_vertex>\n#include <skinbase_vertex>\n#include <skinnormal_vertex>\n#include <begin_vertex>\n#include <skinning_vertex>\nvec4 cp=projectionMatrix*modelViewMatrix*vec4(transformed,1.);vec3 n=normalize(normalMatrix*objectNormal);vec2 d=(projectionMatrix*vec4(n,0.)).xy;float l=length(d);d=l>1e-5?d/l:vec2(0.);cp.xy+=d*uPx*uK*cp.w*2./uRes;gl_Position=cp;}',
     fragmentShader: 'void main(){gl_FragColor=vec4(0.022,0.022,0.03,1.);}'
   });
-  function skMesh(geo, mat, src, outline) { // maillage animé rattaché au squelette de `src`, avec son contour
+  const OUTLINE_KIT = OUTLINE_SK.clone(); OUTLINE_KIT.uniforms = { uPx: OUTL_U.uPx, uRes: OUTL_U.uRes, uK: { value: 0.55 } }; // la tenue : trait plus fin que sur la peau
+  function skMesh(geo, mat, src, outline, om) { // maillage animé rattaché au squelette de `src`, avec son contour
     const m = new THREE.SkinnedMesh(geo, mat); m.bind(src.skeleton, src.bindMatrix); m.frustumCulled = false; m.castShadow = true; m.receiveShadow = true;
     m.position.copy(src.position); m.quaternion.copy(src.quaternion); m.scale.copy(src.scale);
     src.parent.add(m);
-    if (outline) { const o = new THREE.SkinnedMesh(geo, OUTLINE_SK); o.bind(src.skeleton, src.bindMatrix); o.frustumCulled = false; o.position.copy(src.position); o.quaternion.copy(src.quaternion); o.scale.copy(src.scale); src.parent.add(o); m.userData.outline = o; }
+    if (outline) { const o = new THREE.SkinnedMesh(geo, om || OUTLINE_SK); o.bind(src.skeleton, src.bindMatrix); o.frustumCulled = false; o.position.copy(src.position); o.quaternion.copy(src.quaternion); o.scale.copy(src.scale); src.parent.add(o); m.userData.outline = o; }
     return m;
   }
 
@@ -9827,7 +9828,7 @@ var SFXD = {
     rg.kcv = document.createElement('canvas'); rg.kcv.width = 512; rg.kcv.height = 512;
     rg.ktex = new THREE.CanvasTexture(rg.kcv); rg.ktex.colorSpace = THREE.SRGBColorSpace; rg.ktex.anisotropy = 4; rg.ktex.wrapS = THREE.RepeatWrapping;
     const m = toon({ map: rg.ktex, side: THREE.DoubleSide }); rg.mats.push(m);
-    rg.kit = skMesh(g, m, body, true); rg.jcv = rg.kcv; rg.jtex = rg.ktex;
+    rg.kit = skMesh(g, m, body, true, OUTLINE_KIT); rg.jcv = rg.kcv; rg.jtex = rg.ktex;
   }
   function paintKit(rg, L, C, gk) { // échantillons de couleur de la tenue (sous le maillot peint par paintJersey)
     const g = rg.kcv.getContext('2d'), O = L.o, cell = (c, f) => { g.save(); g.beginPath(); g.rect(c[0] * 128, 256 + c[1] * 128, 128, 128); g.clip(); g.translate(c[0] * 128, 256 + c[1] * 128); f(); g.restore(); };
