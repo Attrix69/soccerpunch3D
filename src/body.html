@@ -1,0 +1,167 @@
+<canvas id="gl"></canvas>
+<div id="boot"><div class="bl"><span class="a">TACLE</span> <span class="b">FURY</span> <span class="c">3D</span></div><div class="bb"><i id="bootBar"></i></div><div class="bt" id="bootTxt">Construction du stade…</div></div>
+<div id="vig"></div><div id="rage"></div>
+<canvas id="ui"></canvas>
+<div id="sa"></div>
+
+<div id="ctl">
+  <div id="joy"><div id="knob"></div></div>
+  <div class="gb" id="bA"><b>TIR</b><small>tap = passe</small></div>
+  <div class="gb" id="bB"><b>TACLE</b><small>maintiens</small></div>
+  <div class="gb" id="bC"><div class="ring"></div><b>SPRINT</b></div>
+  <div class="gb" id="bD"><div class="ring"></div><b>SPÉCIAL</b></div>
+</div>
+<button id="mbtn" aria-label="Menu">☰</button>
+
+<div id="menu" class="scr on">
+  <div class="wrap">
+    <div>
+      <h1 class="title"><span class="a">TACLE</span><br><span class="b">FURY</span><span class="d3">3D</span></h1>
+      <p class="tag">Foot de combat 3 contre 3.<br><em>Zéro arbitre. Zéro carton. Zéro pitié.</em><br>Tacle. Frappe. Domine.</p>
+    </div>
+    <div class="col">
+      <div class="invite" id="invite">Ton pote te défie ! Appuie sur REJOINDRE</div>
+      <button class="mb solo" id="goSolo">SOLO CONTRE L'IA</button>
+      <div class="chips" id="chips">
+        <button class="chip" data-d="easy">Tranquille</button>
+        <button class="chip on" data-d="normal">Normal</button>
+        <button class="chip" data-d="hard">Brutal</button>
+      </div>
+      <button class="mb host" id="goHost">DÉFIER UN POTE</button>
+      <div class="jrow">
+        <input class="code" id="codeIn" maxlength="4" placeholder="CODE" autocomplete="off" autocapitalize="characters" spellcheck="false" inputmode="text">
+        <button class="mb join" id="goJoin">REJOINDRE</button>
+      </div>
+      <div class="links"><button class="link" id="goHelp">Comment jouer ?</button><button class="link" id="goOpts">Options</button></div>
+      <p class="note" id="netNote"></p>
+    </div>
+  </div>
+</div>
+
+<div id="lobby" class="scr">
+  <div class="card">
+    <h2>TA PARTIE EN LIGNE</h2>
+    <p class="note">Donne ce code à ton pote (ou envoie-lui le lien)</p>
+    <div class="big" id="lobCode">····</div>
+    <div class="row">
+      <button class="mb host" id="lobShare">ENVOYER LE LIEN</button>
+      <button class="mb ghost" id="lobCopy">COPIER</button>
+    </div>
+    <div class="status" id="lobStatus"><span class="dots">Création de la partie</span></div>
+    <button class="mb ghost" id="lobCancel" style="width:auto;padding:0 18px">ANNULER</button>
+  </div>
+</div>
+
+<div id="joining" class="scr">
+  <div class="card">
+    <h2 id="joinTitle">CONNEXION</h2>
+    <div class="spin" id="joinSpin"></div>
+    <div class="status" id="joinStatus"></div>
+    <div class="err" id="joinErr"></div>
+    <button class="mb ghost" id="joinBack" style="width:auto;padding:0 18px">RETOUR</button>
+  </div>
+</div>
+
+<div id="help" class="scr">
+  <div class="card">
+    <h2>COMMENT JOUER</h2>
+    <div class="help">
+      <div><b>Joystick (gauche)</b> : déplace ton joueur. Tu contrôles automatiquement le joueur le plus proche du ballon.</div>
+      <div><span class="k" style="background:#d4111a">TIR</span><b>maintiens</b> pour charger, relâche pour frapper. Jauge au max = <b>SUPER TIR</b> (le gardien peut finir dans les filets). <b>Petit tap = PASSE</b> vers où tu pousses. <b>Sans ballon : FRAPPE</b> — tape 3 fois : poing, poing, <b>coup de pied qui met K.O.</b> En sprint : <b>coup de pied sauté</b>. Un adversaire est à terre près de toi ? Le bouton devient <b>ACHÈVE</b> : <b>COUP DE GRÂCE</b>, tu le piétines (une fois par chute).</div>
+      <div><span class="k" style="background:#ff7a00">TACLE</span><b>tap</b> = tacle glissé. <b>Maintiens</b> = tacle chargé, plus long et plus violent. Avec le ballon : <b>ESQUIVE</b> — tu passes à côté du défenseur et tu <b>lèves le ballon</b> par-dessus lui.</div>
+      <div><span class="k" style="background:#c9a400">EN L'AIR</span>Quand le ballon est en l'air près de toi, le bouton FRAPPE s'allume en jaune : <b>VOLÉE</b> s'il est bas, <b>CISEAU ACROBATIQUE</b> à mi-hauteur, <b>TÊTE</b> s'il est très haut. Le moment où tu appuies décide : frappe au bon moment (ballon à hauteur de genou pour la volée, de poitrine pour le ciseau) et ça part <b>en feu</b>. Si tu n'appuies pas, le ballon retombe dans tes pieds. En défense, le même bouton sert à <b>dégager</b> ou à gagner le duel aérien (l'adversaire est bousculé) ; tu peux aussi le frapper ou le tacler avant qu'il reprenne.</div>
+      <div><b>Ton équipe</b> : avant chaque match, choisis <b>1 attaquant, 1 milieu et 1 défenseur</b> parmi 15 joueurs. Chacun a ses stats et <b>2 spécialités</b> (une en attaque, une en défense) : Patate de forain, Tacle assassin, La Comète, Passe laser, Frappe du tigre, Coup de tête du buffle… Tout est décrit sur l'écran de composition. <b>En ligne</b>, ton pote ne peut pas prendre les mêmes joueurs que toi : premier arrivé, premier servi.</div>
+      <div><b>Gardien</b> : vise-le et fais une passe pour lui donner le ballon, tu le contrôles. <b>RELANCE</b> : tap = à la main, maintiens = frappe. <b>DÉGAGER</b> = grand coup de pied loin devant. Il ne sort pas de sa surface avec le ballon et relance seul au bout de 4 secondes.</div>
+      <div><span class="k" style="background:#5a5f68">SPRINT</span>maintiens pour courir plus vite (jauge d'endurance autour du bouton).</div>
+      <div><span class="k" style="background:#b07a00">KI</span>barre en 3 crans (coups, tacles, passes). <b>Tap = BOULE DE KI</b> (1 cran). <b>Maintiens = tu charges ton ki</b> (immobile, gare aux coups !). Barre pleine + maintiens encore = <b>MÉGA RAYON</b> qui pulvérise tout sur sa ligne. Avec ballon et barre pleine : <b>ULTIME</b>, unique à chaque joueur (trajectoire, effet, pose — voir la composition).</div>
+      <div><b>Règles</b> : aucune. Match de 3 min, <b>but en or</b> en cas d'égalité. Tacler le gardien ? Autorisé.</div>
+      <div><b>Physique</b> : un joueur éjecté devient un boulet. Il <b>renverse tout ce qu'il percute</b> (même ses coéquipiers), <b>s'écrase contre les murets</b> et peut finir <b>au fond des filets</b>. Enchaîne les coups pour faire grimper le <b>combo</b> (Sauvage, Brutal, Barbare, Inhumain…).</div>
+      <div><b>Sur PC</b> : ZQSD / flèches, <span class="k" style="background:#444">Espace</span>tir, <span class="k" style="background:#444">K</span>tacle, <span class="k" style="background:#444">Maj</span>sprint, <span class="k" style="background:#444">E</span>spécial, <span class="k" style="background:#444">Échap</span>pause, <span class="k" style="background:#444">F</span>plein écran.</div>
+      <div><b>Manette</b> : stick gauche, <span class="k" style="background:#2f7d32">A</span>tir/frappe, <span class="k" style="background:#b32424">B</span>/<span class="k" style="background:#2456b3">X</span>tacle, <span class="k" style="background:#b39a24">Y</span>spécial, <span class="k" style="background:#444">RB/RT</span>sprint, <span class="k" style="background:#444">Start</span>pause. Elle vibre à chaque coup.</div>
+      <div><b>Lire le jeu</b> : en chargeant un tir, un <b>cône</b> et un <b>réticule</b> montrent où part le ballon. Avec le ballon, le coéquipier cerclé recevra ta passe. Sans ballon, les <b>crochets rouges</b> désignent celui que tu vas frapper. Un <b>« ! » rouge</b> au-dessus de toi : un tacle ou du ki arrive, <b>esquive</b> (TACLE avec le ballon) au dernier moment pour une <b>ESQUIVE PARFAITE</b> (ralenti + ki).</div>
+      <div><b>En ligne</b> : « Défier un pote » donne un code. Ton pote le tape (ou ouvre ton lien) et c'est parti.</div>
+    </div>
+    <div class="row" style="margin-top:12px"><button class="mb solo" id="helpOk" style="width:auto;padding:0 26px">COMPRIS</button></div>
+  </div>
+</div>
+
+<div id="pause" class="scr">
+  <div class="card">
+    <h2 id="pauseTitle">PAUSE</h2>
+    <div class="col" style="margin:6px auto 0">
+      <button class="mb solo" id="pResume">REPRENDRE</button>
+      <button class="mb host" id="pRestart">RECOMMENCER</button>
+      <button class="mb ghost" id="pHelp">COMMENT JOUER</button>
+      <button class="mb ghost" id="pOpts">OPTIONS</button>
+      <button class="mb ghost" id="pQuit">QUITTER</button>
+    </div>
+  </div>
+</div>
+
+<div id="opts" class="scr">
+  <div class="card optc">
+    <h2>OPTIONS</h2>
+    <div class="optg">
+      <span>GRAPHISMES</span><div class="seg" data-k="gfx"><button data-v="auto">Auto</button><button data-v="ultra">Ultra</button><button data-v="high">Haute</button><button data-v="perf">Perf.</button></div>
+      <span>MUSIQUE</span><input type="range" min="0" max="100" step="5" data-k="music">
+      <span>EFFETS</span><input type="range" min="0" max="100" step="5" data-k="sfx">
+      <span>ANNONCEUR</span><div class="seg" data-k="voice"><button data-v="1">Oui</button><button data-v="0">Non</button></div>
+      <span>SANG</span><div class="seg" data-k="gore"><button data-v="0">Sans</button><button data-v="1">Sang</button><button data-v="2">Gore max</button></div>
+      <span>VIBRATIONS</span><div class="seg" data-k="vib"><button data-v="1">Oui</button><button data-v="0">Non</button></div>
+      <span>CAMÉRA</span><div class="seg" data-k="shake"><button data-v="1">Secousses</button><button data-v="0">Réduites</button></div>
+    </div>
+    <p class="note" id="optGfx"></p>
+    <div class="row"><button class="mb solo" id="optOk" style="width:auto;padding:0 30px">OK</button></div>
+  </div>
+</div>
+
+<div id="vs"><div class="vsl"><div class="vsn"></div><div class="vsp"></div></div><div class="vsr"><div class="vsn"></div><div class="vsp"></div></div><div class="vsx">VS</div><div class="vsf"></div></div>
+
+<div id="end" class="scr">
+  <div class="card">
+    <div class="res" id="endRes">VICTOIRE !</div>
+    <div class="sc" id="endSc">0 - 0</div>
+    <div class="stats" id="endStats"></div>
+    <div class="status" id="endStatus"></div>
+    <div class="row">
+      <button class="mb solo" id="endAgain">REVANCHE</button>
+      <button class="mb ghost" id="endMenu">MENU</button>
+    </div>
+  </div>
+</div>
+
+<div id="draft" class="scr">
+  <div class="dr">
+    <div class="drTop">
+      <h2>TON ÉQUIPE</h2>
+      <div class="drTabs">
+        <button class="drTab on" data-r="0"><small>ATTAQUANT</small><b>— choisis —</b></button>
+        <button class="drTab" data-r="1"><small>MILIEU</small><b>— choisis —</b></button>
+        <button class="drTab" data-r="2"><small>DÉFENSEUR</small><b>— choisis —</b></button>
+        <button class="drTab" data-r="3"><small>GARDIEN</small><b>— choisis —</b></button>
+      </div>
+      <button class="mb solo drGo" id="drGo" disabled>C'EST PARTI</button>
+    </div>
+    <div class="drBody">
+      <div class="drCards" id="drCards"></div>
+      <div class="drInfo" id="drInfo"></div>
+    </div>
+    <div class="drFoot">
+      <div class="status" id="drStatus"></div>
+      <button class="link" id="drRand">Au hasard</button>
+      <button class="link" id="drBack">Retour</button>
+    </div>
+  </div>
+</div>
+
+<div id="netm" class="scr">
+  <div class="card">
+    <h2 id="netTitle">CONNEXION PERDUE</h2>
+    <div class="spin" id="netSpin"></div>
+    <div class="status" id="netStatus"></div>
+    <div class="row"><button class="mb ghost" id="netMenu">QUITTER</button></div>
+  </div>
+</div>
+
+<div id="rotate"><div class="ph"></div><p>Tourne ton téléphone<br>en mode paysage</p></div>
+<div id="toast"></div>

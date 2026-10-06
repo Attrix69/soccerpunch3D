@@ -1,0 +1,14 @@
+/* ===== version 3D : canvas WebGL, écran de chargement, badge 3D ===== */
+canvas#gl{display:block;z-index:0;touch-action:none}
+#menu{background:linear-gradient(90deg,rgba(3,3,4,.86) 0%,rgba(3,3,4,.32) 52%,rgba(3,3,4,.8) 100%)}
+.title .d3{display:inline-block;margin-left:.12em;font-size:.42em;vertical-align:top;color:#050506;background:var(--bone);padding:.04em .16em .02em;transform:translateY(.32em) skewX(-4deg);box-shadow:4px 4px 0 #000,0 0 26px rgba(255,255,255,.25)}
+#menu.on .title .d3{animation:tIn .55s .36s cubic-bezier(.2,.9,.3,1.35) both}
+#boot{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:radial-gradient(ellipse at 50% 60%,#1a0708 0%,#050506 70%);transition:opacity .5s}
+#boot.off{opacity:0;pointer-events:none}
+#boot .bl{font:400 clamp(40px,10vh,76px)/1 var(--hd);transform:skewX(-9deg);letter-spacing:1px}
+#boot .bl .a{color:var(--bone);text-shadow:4px 4px 0 #000}
+#boot .bl .b{color:var(--red2);text-shadow:4px 4px 0 #000,0 0 24px rgba(255,30,20,.45)}
+#boot .bl .c{color:#050506;background:var(--bone);padding:0 .14em;font-size:.6em;vertical-align:middle}
+#boot .bb{width:min(320px,60vw);height:6px;background:rgba(255,255,255,.1);transform:skewX(-20deg);overflow:hidden}
+#boot .bb i{display:block;height:100%;width:0;background:linear-gradient(90deg,#a30c10,#ff2a1e);box-shadow:0 0 12px rgba(255,40,30,.8);transition:width .25s}
+#boot .bt{font:italic 800 13px/1 var(--ui);letter-spacing:.08em;text-transform:uppercase;color:#9aa0a8}

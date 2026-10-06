@@ -1,0 +1,96 @@
+/* ================= TACLE FURY — interface premium : transitions, menu animé, options, VS, fin de match ================= */
+/* entrée des écrans : ça arrive avec du poids, jamais d'un coup */
+.scr.on>.card,.scr.on>.dr{animation:scrIn .38s cubic-bezier(.2,.9,.25,1.15) both}
+@keyframes scrIn{from{opacity:0;transform:translateY(18px) scale(.95)}}
+#pause,#end,#opts,#help,#netm{-webkit-backdrop-filter:blur(7px) saturate(.75);backdrop-filter:blur(7px) saturate(.75)}
+.card{background:linear-gradient(180deg,rgba(26,26,30,.95),rgba(9,9,11,.97));box-shadow:0 30px 80px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.04) inset,0 0 70px rgba(212,17,26,.14)}
+.card::before{content:'';position:absolute;left:0;right:0;top:0;height:40%;background:linear-gradient(180deg,rgba(255,255,255,.05),transparent);pointer-events:none;border-radius:4px 4px 0 0}
+
+/* ---------- menu : le logo s'abat, les boutons entrent en cascade ---------- */
+#menu.on .title .a{animation:tIn .55s .08s cubic-bezier(.2,.9,.3,1.35) both}
+#menu.on .title .b{animation:tIn .55s .22s cubic-bezier(.2,.9,.3,1.35) both}
+@keyframes tIn{from{opacity:0;transform:translateX(-60px) scale(1.4);filter:blur(6px)}}
+.title .b{background:linear-gradient(100deg,#ff2a1e 0 40%,#ffd9d2 48%,#fff 50%,#ffd9d2 52%,#ff2a1e 60% 100%);background-size:320% 100%;background-position:100% 0;
+  -webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(5px 5px 0 #000) drop-shadow(0 0 22px rgba(255,30,20,.45));animation:glint 4.5s 1.2s infinite}
+#menu.on .title .b{animation:tIn .55s .22s cubic-bezier(.2,.9,.3,1.35) both,glint 4.5s 1.4s infinite}
+@keyframes glint{0%,70%{background-position:100% 0}100%{background-position:0 0}}
+#menu.on .title .b::after{animation:uline .5s .6s cubic-bezier(.2,.9,.3,1) both;transform-origin:left}
+@keyframes uline{from{transform:skewX(-30deg) scaleX(0)}}
+#menu.on .tag{animation:fIn .6s .5s both}
+@keyframes fIn{from{opacity:0;transform:translateY(8px)}}
+#menu.on .col>*{animation:bIn .45s cubic-bezier(.2,.9,.3,1.2) both}
+#menu.on .col>:nth-child(2){animation-delay:.3s}#menu.on .col>:nth-child(3){animation-delay:.36s}#menu.on .col>:nth-child(4){animation-delay:.42s}
+#menu.on .col>:nth-child(5){animation-delay:.48s}#menu.on .col>:nth-child(6){animation-delay:.54s}#menu.on .col>:nth-child(7){animation-delay:.6s}
+@keyframes bIn{from{opacity:0;transform:translateX(40px)}}
+.links{display:flex;gap:18px;justify-content:center}
+
+/* ---------- boutons : reflet qui balaie, enfoncement, lueur ---------- */
+.mb{position:relative;overflow:hidden}
+.mb::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.38) 50%,transparent 70%);transform:translateX(-130%);transition:transform .55s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+@media (hover:hover){.mb:hover::after{transform:translateX(130%)}.mb:hover{filter:brightness(1.12);transform:translateY(-1px)}.chip:hover,.link:hover,.seg button:hover{filter:brightness(1.3)}}
+.mb.solo{box-shadow:inset 0 -4px 0 rgba(0,0,0,.35),0 8px 24px rgba(255,30,20,.25)}
+.mb:focus-visible,.chip:focus-visible,.seg button:focus-visible,.link:focus-visible{outline:2px solid #ffd23a;outline-offset:2px}
+
+/* ---------- options ---------- */
+.optc{max-width:560px;width:100%}
+.optg{display:grid;grid-template-columns:auto 1fr;gap:10px 16px;align-items:center;text-align:left;margin:6px 0 4px}
+.optg>span{font:italic 800 clamp(12px,3.3vh,14px) var(--ui);letter-spacing:.8px;color:#a9adb5}
+.seg{display:flex;gap:5px}
+.seg button{flex:1;border:0;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);color:#a9adb5;padding:clamp(5px,1.4vh,8px) 4px;
+  clip-path:polygon(7px 0,100% 0,calc(100% - 7px) 100%,0 100%);font:italic 800 clamp(11px,3.2vh,14px) var(--ui);text-transform:uppercase;letter-spacing:.4px;cursor:pointer;touch-action:manipulation;transition:background .15s,color .15s}
+.seg button.on{background:var(--bone);color:#0b0b0d;box-shadow:none}
+.seg[data-k=gore] button[data-v="2"].on,.seg[data-k=gfx] button[data-v=ultra].on{background:var(--red);color:#fff}
+.optg input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:22px;background:transparent;cursor:pointer;touch-action:manipulation}
+.optg input[type=range]::-webkit-slider-runnable-track{height:6px;background:linear-gradient(90deg,var(--red2) var(--v,50%),rgba(255,255,255,.14) var(--v,50%));clip-path:polygon(3px 0,100% 0,calc(100% - 3px) 100%,0 100%)}
+.optg input[type=range]::-moz-range-track{height:6px;background:rgba(255,255,255,.14)}
+.optg input[type=range]::-moz-range-progress{height:6px;background:var(--red2)}
+.optg input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;margin-top:-6px;background:var(--bone);border:2px solid #050506;transform:skewX(-12deg);box-shadow:0 0 10px rgba(255,40,30,.6)}
+.optg input[type=range]::-moz-range-thumb{width:16px;height:16px;background:var(--bone);border:2px solid #050506;border-radius:2px}
+
+/* ---------- écran VS avant le coup d'envoi ---------- */
+#vs{position:fixed;inset:0;z-index:25;display:none;pointer-events:none;overflow:hidden}
+#vs.on{display:block}
+#vs .vsl,#vs .vsr{position:absolute;top:0;bottom:0;width:58%;display:flex;flex-direction:column;justify-content:center;padding:0 5vw;gap:2vh}
+#vs .vsl{left:0;align-items:flex-start;background:linear-gradient(100deg,var(--c0) 0%,rgba(5,5,6,.92) 70%,transparent 100%);clip-path:polygon(0 0,100% 0,82% 100%,0 100%);animation:vsL 2.75s cubic-bezier(.2,.9,.25,1) both}
+#vs .vsr{right:0;align-items:flex-end;background:linear-gradient(260deg,var(--c1) 0%,rgba(5,5,6,.92) 70%,transparent 100%);clip-path:polygon(18% 0,100% 0,100% 100%,0 100%);animation:vsR 2.75s cubic-bezier(.2,.9,.25,1) both}
+@keyframes vsL{0%{transform:translateX(-105%)}14%,82%{transform:translateX(0)}100%{transform:translateX(-110%)}}
+@keyframes vsR{0%{transform:translateX(105%)}14%,82%{transform:translateX(0)}100%{transform:translateX(110%)}}
+#vs .vsn{font:400 clamp(30px,10vh,72px)/.9 var(--hd);text-transform:uppercase;letter-spacing:2px;color:#fff;text-shadow:5px 5px 0 #000;transform:skewX(-8deg)}
+#vs .vsn small{display:block;font:italic 800 clamp(11px,3vh,15px) var(--ui);letter-spacing:2px;color:rgba(255,255,255,.75);text-shadow:0 2px 0 #000}
+#vs .vsp{display:flex;gap:.8vw}
+#vs .vsr .vsp{flex-direction:row-reverse}
+#vs .vsp figure{margin:0;display:flex;flex-direction:column;align-items:center;width:clamp(40px,8.6vw,118px);animation:vsP .5s both}
+#vs .vsp img{width:100%;aspect-ratio:130/170;object-fit:cover;object-position:50% 0;filter:drop-shadow(0 6px 10px rgba(0,0,0,.6))}
+#vs .vsp figcaption{font:400 clamp(9px,2.6vh,14px)/1.05 var(--hd);text-transform:uppercase;text-align:center;color:#fff;text-shadow:0 2px 0 #000;margin-top:2px}
+@keyframes vsP{from{opacity:0;transform:translateY(30px) scale(.9)}}
+#vs .vsx{position:absolute;left:50%;top:50%;font:400 clamp(60px,22vh,170px)/1 var(--hd);color:#fff;transform:translate(-50%,-50%) skewX(-10deg);
+  text-shadow:6px 6px 0 #000,0 0 40px rgba(255,40,20,.9);animation:vsX 2.75s cubic-bezier(.2,.9,.3,1.3) both}
+@keyframes vsX{0%,11%{opacity:0;transform:translate(-50%,-50%) skewX(-10deg) scale(3.2)}19%{opacity:1;transform:translate(-50%,-50%) skewX(-10deg) scale(.92)}24%,80%{opacity:1;transform:translate(-50%,-50%) skewX(-10deg) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) skewX(-10deg) scale(1.6)}}
+#vs .vsf{position:absolute;inset:0;background:#fff;opacity:0;animation:vsF 2.75s both}
+@keyframes vsF{0%,15%{opacity:0}17%{opacity:.75}30%,100%{opacity:0}}
+
+/* ---------- fin de match ---------- */
+#end .card{min-width:min(460px,92vw)}
+#end.win .res{color:transparent!important;background:linear-gradient(100deg,#f1efe9 0 40%,#fff6c0 48%,#ffd23a 50%,#fff6c0 52%,#f1efe9 60% 100%);background-size:320% 100%;
+  -webkit-background-clip:text;background-clip:text;text-shadow:none;filter:drop-shadow(4px 4px 0 #000) drop-shadow(0 0 26px rgba(255,210,58,.5));animation:resIn .7s cubic-bezier(.2,.9,.3,1.4) both,glint 3s .8s infinite}
+#end.lose .res{animation:resLose .9s cubic-bezier(.3,1.4,.4,1) both}
+@keyframes resIn{from{opacity:0;transform:skewX(-8deg) scale(2.2)}}
+@keyframes resLose{0%{opacity:0;transform:skewX(-8deg) translateY(-40px)}60%{opacity:1;transform:skewX(-8deg) translateY(6px)}100%{transform:skewX(-8deg) translateY(0)}}
+#end.on .sc{animation:fIn .5s .35s both}
+#end .stats>div{animation:fIn .35s both}
+#end .row{animation:fIn .4s .9s both}
+.mvp{display:flex!important;align-items:center;gap:10px;justify-content:center}
+.mvp img{width:44px;height:44px;object-fit:cover;object-position:50% 34%;border:2px solid var(--gold);background:#1a1a1e;box-shadow:0 0 14px rgba(255,180,0,.45)}
+
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+/* écrans bas (téléphone en paysage) : la fin de match tient sans défiler */
+@media (max-height:480px){
+  #end .card{padding:8px 18px}
+  #end .res{font-size:clamp(26px,9vh,40px)}
+  #end .sc{font-size:clamp(26px,9vh,40px);margin:0 0 4px}
+  #end .stats{font-size:clamp(10px,3.1vh,13px);line-height:1.12;margin-bottom:4px}
+  #end .stats .mvp{margin-top:3px;padding:2px 8px}
+  #end .mvp img{width:30px;height:30px}
+  #end .status{margin:2px 0;min-height:0}
+  #end .row .mb{height:clamp(32px,10vh,44px)}
+}
