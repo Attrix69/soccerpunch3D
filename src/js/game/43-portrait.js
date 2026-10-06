@@ -29,7 +29,7 @@
     const box = new THREE.Box3().setFromObject(rg.root, !!rg.sk), hgt = box.max.y - box.min.y, cy = (box.max.y + box.min.y) / 2;
     const dist = (hgt * 0.62) / Math.tan(THREE.MathUtils.degToRad(PCAM.fov / 2));
     PCAM.position.set(0, cy + hgt * 0.04, dist); PCAM.lookAt(0, cy, 0);
-    if (o.head && rg.bone) { const hp = new THREE.Vector3(); rg.bone.Head.getWorldPosition(hp); hp.y += 0.1; PCAM.position.set(hp.x, hp.y, hp.z + 0.95); PCAM.lookAt(hp); PCAM.fov = 27; }
+    if (o.head && rg.bone) { const hp = new THREE.Vector3(); rg.bone.Head.getWorldPosition(hp); hp.y += 0.15; PCAM.position.set(hp.x, hp.y, hp.z + 0.95); PCAM.lookAt(hp); PCAM.fov = 27; }
     PCAM.updateProjectionMatrix();
     const keepRes = OUTL_U.uRes.value.clone(), keepPx = OUTL_U.uPx.value;
     OUTL_U.uRes.value.set(w, h); OUTL_U.uPx.value = 4.2;
@@ -60,4 +60,4 @@
     try { url = render3DFigure(id, team, { fx: back ? -0.5 : 0.55, fy: back ? -0.86 : 0.84 }).toDataURL(); } catch (e) { url = ''; }
     return (portraits[key] = url);
   }
-  function poseShot(id, team, o) { try { return render3DFigure(id, team, o || {}).toDataURL(); } catch (e) { return ''; } }
+  function poseShot(id, team, o) { try { return render3DFigure(id, team, o || {}).toDataURL(); } catch (e) { console.error('portrait', e); return ''; } }

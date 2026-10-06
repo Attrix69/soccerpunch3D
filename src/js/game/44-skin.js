@@ -190,12 +190,14 @@
     const hb = rg.bone.Head, HB = SKB.b.Head; hb.scale.setScalar(HS);
     const bi = rg.body3.skeleton.boneInverses[rg.body3.skeleton.bones.indexOf(hb)];
     const hairTex = MODELS.hair && MODELS.hair.getObjectByName('Hair_Buzzed'), tintHair = new THREE.Color(L.hc).multiplyScalar(1.7);
+    const hg = new THREE.Group(); hg.matrixAutoUpdate = false; hg.matrix.copy(bi); hb.add(hg); // enfant de l'os de la tête, en mètres du modèle (position de repos)
     const addAsset = (name, col) => {
       const src = MODELS.hair && MODELS.hair.getObjectByName(name); if (!src) return;
       const mt = toon({ map: src.material.map, color: col || tintHair, side: THREE.DoubleSide }); rg.mats.push(mt);
-      const m = new THREE.Mesh(src.geometry, mt); m.matrixAutoUpdate = false; m.matrix.copy(bi); m.castShadow = true; m.frustumCulled = false;
-      const o = new THREE.Mesh(src.geometry, OUTLINE); o.frustumCulled = false; m.add(o); hb.add(m);
+      const m = new THREE.Mesh(src.geometry, mt); m.castShadow = true; m.frustumCulled = false;
+      const o = new THREE.Mesh(src.geometry, OUTLINE); o.frustumCulled = false; m.add(o); hg.add(m);
     };
+    skHeadProps(rg, L, hg);
     if (HAIR_ASSET[L.hair]) addAsset(HAIR_ASSET[L.hair]);
     if (L.f.beard || L.f.braidbeard) addAsset('Hair_Beard');
     // repère de la tête aux dimensions de l'ancienne tête (rayon 7) : les couvre-chefs et détails procéduraux s'y placent tels quels
@@ -325,6 +327,33 @@
       if (blv >= 3) { ell(P(4.6, 2.2, -2.2), 2.0 * PU, 1.6 * PU, 'rgba(150,8,12,.78)'); ell(P(3.5, -4.5, 3), 1.5 * PU, 1.2 * PU, 'rgba(150,8,12,.6)'); }
     }
     rg.ftex.needsUpdate = true;
+  }
+
+  /* ---------- accessoires en vrais modèles 3D (3dassets.dev) : casques, lunettes, couronne, baguette ---------- */
+  // cols : couleur par nom de matériau ('*' : couleur d'origine) ; M : placement dans le repère du parent
+  function skProp(rg, name, parent, cols, M, outline) {
+    const src = MODELS[name]; if (!src) return null;
+    const grp = new THREE.Group(); grp.matrixAutoUpdate = false; grp.matrix.copy(M); parent.add(grp);
+    src.updateMatrixWorld(true);
+    src.traverse(m => {
+      if (!m.isMesh) return;
+      const nm = m.material.name, c = cols && cols[nm] !== undefined ? cols[nm] : m.material.color;
+      if (c === null) return; // pièce masquée
+      const mt = toon({ color: c }); rg.mats.push(mt);
+      const mm = new THREE.Mesh(m.geometry, mt); mm.matrixAutoUpdate = false; mm.matrix.copy(m.matrixWorld); mm.castShadow = true; mm.frustumCulled = false; grp.add(mm);
+      if (outline !== false) { const o = new THREE.Mesh(m.geometry, OUTLINE); o.frustumCulled = false; mm.add(o); }
+    });
+    return grp;
+  }
+  const _pm = new THREE.Matrix4(), _ps = new THREE.Matrix4();
+  const PL = (x, y, z, s, ry) => _pm.makeTranslation(x, y, z).multiply(_ps.makeRotationY(ry || 0)).multiply(_ps.makeScale(s, s, s)).clone();
+  function skHeadProps(rg, L, parent) { // repère « mètres du modèle » : x côté gauche du personnage, y haut, z devant
+    const HT = L.pe.hat;
+    if (L.hair === 'hardhat') skProp(rg, 'acc_hardhat', parent, { hiVis: '#ffc21a', steel: '#9a9ea6', lamp: '#fff6c8', dark: '#2a2a30' }, PL(0.008, 1.755, -0.01, 0.5));
+    if (HT === 'army') skProp(rg, 'acc_ballistic', parent, { polymerTan: '#4b5320', rubberBlack: '#17171b', cordura: '#2a2e12' }, PL(0, 1.715, 0, 0.7));
+    if (HT === 'goggles') skProp(rg, 'acc_goggles', parent, { ice: '#53d0e6', charcoal: '#1e1e24', orange: '#33e0ff' }, PL(0, 1.745, 0.1, 0.78));
+    if (L.f.shades) skProp(rg, 'acc_shades', parent, { navy: '#08080a', charcoal: '#0c0c0f', steel: '#9a9ea6' }, PL(0, 1.667, 0.1, 1.08));
+    if (L.f.crown) skProp(rg, 'acc_crown', parent, { gold: '#ffd23a' }, PL(0, 1.795, 0, 4.9));
   }
   function skDispose(rg) { rg.model.traverse(o => { if (o.isSkinnedMesh && o.geometry && o.geometry.userData.own) o.geometry.dispose(); if (o.skeleton) o.skeleton.dispose(); }); }
 

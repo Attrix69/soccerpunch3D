@@ -60,7 +60,7 @@
     g.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize()));
     g.translate(A.x, A.y, A.z); return g;
   }
-  const merge = gs => THREE.mergeGeometries(gs.filter(Boolean));
+  const merge = gs => { const a = gs.filter(Boolean); return a.length ? THREE.mergeGeometries(a) : null; };
 
   /* ---------- tête : crâne + mâchoire carrée, cheveux, couvre-chefs, pilosité ---------- */
   // skin : la tête est celle du corps rigé (assets Quaternius) -> on ne construit que ce qui s'y ajoute (couvre-chefs, coiffures non fournies, pilosité)
@@ -84,7 +84,7 @@
     else if (hs === 'crest' || hs === 'mohawk') { if (hs === 'crest') cap(6.95, -0.8, 0.8, shade(hair, 0.5)); for (let k = 0; k <= 5; k++) { const a = -0.5 + k * 0.62, x = Math.cos(a + 1.2) * 7.2, y = Math.sin(a + 1.2) * 7.4 + 0.5; gs.push(aim(cone(1.7, 4.2, hair), [x * 0.8, y * 0.8, 0], [x * 1.25, y * 1.25, 0], true)); } }
     else if (hs === 'afro') cap(10.4, -1.8, 4.6, hair);
     else if (hs === 'hood') { gs.push(sph(8.6, '#16151b', -2.6, 1.4, 0, 1, 1, 1.02, 20, 14)); gs.push(aim(capsule(4.8, 3.4, 9, '#16151b'), [-5, -3, 0], [-7.5, -11, 0])); }
-    else if (hs === 'hardhat') { gs.push(sph(7.4, '#ffc21a', -0.4, 2.0, 0, 1, 0.9, 1, 20, 10)); gs.push(cyl(9.0, 9.0, 0.7, '#e0a300', 0.4, 2.1, 0, 24)); gs.push(rbox(10, 1.2, 1.4, 0.5, '#ffd84a', -1, 8.4, 0)); }
+    else if (hs === 'hardhat') { if (!skin) { gs.push(sph(7.4, '#ffc21a', -0.4, 2.0, 0, 1, 0.9, 1, 20, 10)); gs.push(cyl(9.0, 9.0, 0.7, '#e0a300', 0.4, 2.1, 0, 24)); gs.push(rbox(10, 1.2, 1.4, 0.5, '#ffd84a', -1, 8.4, 0)); } }
     else if (hs === 'scrum') { cap(7.25, -1.0, 2.6, '#26262c'); for (const s of [-1, 1]) gs.push(sph(2.6, '#3a3a42', 0, -0.5, s * 6.9, 0.8, 1, 0.6)); }
     if (hs === 'long' && !own) for (const l of [-4, 0, 4]) gs.push(aim(capsule(3, 2.4, 13, hair), [-3, 4, l], [-7.5, -10, l * 1.15]));
     if (hs === 'dreads') for (const l of [-5.5, -2.8, 0, 2.8, 5.5]) { const a = [-2, 5, l], b = [-6.5, -10.5, l * 1.25]; gs.push(aim(capsule(1.4, 1.2, len(b[0] - a[0], b[1] - a[1]), hair), a, b)); gs.push(sph(1.4, '#c99a2e', b[0], b[1], b[2])); }
@@ -103,9 +103,9 @@
       case 'bikercap': gs.push(sph(7.3, '#1e1714', -0.6, 2.4, 0, 1, 0.78, 1, 20, 10)); gs.push(rbox(5, 0.8, 9, 0.35, '#100c0a', 6.2, 3.6, 0)); gs.push(sph(1.1, '#d9a441', 6.6, 6.1, 0)); break;
       case 'bandana': gs.push(sph(7.3, '#b3121c', -0.7, 2.0, 0, 1, 0.95, 1, 20, 12)); for (const [f, d, l] of [[2.5, 6, -2.2], [-1, 6.6, 2.6], [4.4, 4.4, 3.2], [-3.5, 5, -3.5], [1, 6.9, 0.5]]) gs.push(sph(0.7, '#f4f1ea', f, d + 0.3, l));
         gs.push(aim(capsule(1.3, 0.9, 6.5, '#b3121c'), [-6.6, 2.2, 0], [-11, -2.8, -2.6])); gs.push(aim(capsule(1.2, 0.9, 6.5, '#b3121c'), [-6.6, 2.2, 0], [-10.2, -4.4, 2.8])); break;
-      case 'army': gs.push(sph(8.4, '#4b5320', -0.4, 2.0, 0, 1, 0.82, 1, 20, 10)); gs.push(tor(8.3 * RK, 0.7, '#3c4219').rotateX(Math.PI / 2).translate(-0.4, 2.2, 0)); for (const s of [-1, 1]) gs.push(aim(capsule(0.45, 0.45, 8, '#2a2e12'), [0, 1.5, s * 7.2], [3.6, -6.2, s * 4])); break;
+      case 'army': if (skin) break; gs.push(sph(8.4, '#4b5320', -0.4, 2.0, 0, 1, 0.82, 1, 20, 10)); gs.push(tor(8.3 * RK, 0.7, '#3c4219').rotateX(Math.PI / 2).translate(-0.4, 2.2, 0)); for (const s of [-1, 1]) gs.push(aim(capsule(0.45, 0.45, 8, '#2a2e12'), [0, 1.5, s * 7.2], [3.6, -6.2, s * 4])); break;
       case 'turban': gs.push(tor(6.8 * RK, 2.2, '#6a2fae').rotateX(Math.PI / 2).translate(-0.6, 3.2, 0)); gs.push(sph(6.6, '#5a2696', -0.6, 4.2, 0, 1, 0.7, 1)); gs.push(sph(1.8, '#33e0ff', 6.6, 4.6, 0)); gs.push(aim(capsule(0.7, 0.3, 4.4, '#f4f1ea'), [6.4, 5.4, 0], [4.6, 9.8, 0])); break;
-      case 'goggles': gs.push(tor(7.15 * RK, 0.75, '#1e1e24').rotateX(Math.PI / 2).rotateZ(-0.15).translate(0, 3.6, 0)); for (const s of [-1, 1]) { gs.push(cyl(2.3, 2.3, 1.4, '#1e1e24', 0, 0, 0).rotateZ(Math.PI / 2).translate(6.2, 4.6, s * 2.7)); gs.push(cyl(1.8, 1.8, 0.4, '#53d0e6', 0, 0, 0).rotateZ(Math.PI / 2).translate(6.95, 4.6, s * 2.7)); } break;
+      case 'goggles': if (skin) break; gs.push(tor(7.15 * RK, 0.75, '#1e1e24').rotateX(Math.PI / 2).rotateZ(-0.15).translate(0, 3.6, 0)); for (const s of [-1, 1]) { gs.push(cyl(2.3, 2.3, 1.4, '#1e1e24', 0, 0, 0).rotateZ(Math.PI / 2).translate(6.2, 4.6, s * 2.7)); gs.push(cyl(1.8, 1.8, 0.4, '#53d0e6', 0, 0, 0).rotateZ(Math.PI / 2).translate(6.95, 4.6, s * 2.7)); } break;
     }
     if (L.band) gs.push(tor(7.05 * RK, 0.9, L.band === 'a' ? C.a : C.s).rotateX(Math.PI / 2).rotateZ(-0.12).translate(-0.2, 2.8, 0));
     // visage en relief : barbe, moustache, rouflaquettes, couronne, piercing, lunettes
@@ -114,9 +114,9 @@
     if (F.goatee) gs.push(sph(1.9, hair, 5.6, -5.8, 0, 0.8, 1.2, 1));
     if (F.moustache) gs.push(tube([[6.0, -5.8, -2.9], [6.75, -2.6, -2.3], [7.05, -2.3, 0], [6.75, -2.6, 2.3], [6.0, -5.8, 2.9]], 0.75, hair));
     if (F.sideburns) for (const s of [-1, 1]) gs.push(sph(1.8, hair, 1.5, -1.6, s * 6.1, 0.7, 1.4, 0.6));
-    if (F.crown) { gs.push(cyl(4.2, 4.6, 2.2, '#ffd23a', -1, 7.4, 0, 18)); for (const a of [0, 1.26, 2.51, 3.77, 5.03]) gs.push(aim(cone(0.9, 2.6, '#ffd23a'), [-1 + Math.cos(a) * 4.2, 8.4, Math.sin(a) * 4.2], [-1 + Math.cos(a) * 4.4, 11, Math.sin(a) * 4.4], true)); gs.push(sph(0.8, '#d4111a', 3.4, 7.4, 0)); }
+    if (F.crown && !skin) { gs.push(cyl(4.2, 4.6, 2.2, '#ffd23a', -1, 7.4, 0, 18)); for (const a of [0, 1.26, 2.51, 3.77, 5.03]) gs.push(aim(cone(0.9, 2.6, '#ffd23a'), [-1 + Math.cos(a) * 4.2, 8.4, Math.sin(a) * 4.2], [-1 + Math.cos(a) * 4.4, 11, Math.sin(a) * 4.4], true)); gs.push(sph(0.8, '#d4111a', 3.4, 7.4, 0)); }
     if (F.nosering) gs.push(tor(0.95, 0.22, '#ffd23a').rotateY(Math.PI / 2).translate(7.1, -2.9, 0));
-    if (F.shades) { for (const s of [-1, 1]) gs.push(sph(1.9, '#08080a', 6.35, 0.5, s * 2.6, 0.45, 0.75, 1)); gs.push(rbox(0.6, 0.5, 1.6, 0.2, '#08080a', 6.9, 0.7, 0)); }
+    if (F.shades && !skin) { for (const s of [-1, 1]) gs.push(sph(1.9, '#08080a', 6.35, 0.5, s * 2.6, 0.45, 0.75, 1)); gs.push(rbox(0.6, 0.5, 1.6, 0.2, '#08080a', 6.9, 0.7, 0)); }
     return merge(gs);
   }
 
@@ -236,7 +236,7 @@
     if (OF.chain) hipG.push(tor(4.5, 0.45, '#c9ccd2', Math.PI).rotateY(Math.PI / 2).translate(1, -3.2, (rg.sk ? 5.6 : L.b[3]) + 0.6));
     if (hipG.length) { const m = segMesh(merge(hipG), bm, rg.hips); m.matrixAutoUpdate = true; }
     // accessoires tenus en main
-    if (PE.prop === 'baton') { const m = new THREE.Mesh(merge([capsule(0.55, 0.4, 12, '#f4f1ea', -3), sph(0.9, '#121216', 0, -3, 0)]), bm); m.castShadow = true; rg.seg.handR.add(m); m.matrixAutoUpdate = false; m.updateMatrix(); }
+    if (PE.prop === 'baton') skProp(rg, 'acc_baton', rg.seg.handR, { '*': null, oak: '#121216', white: '#f4f1ea' }, new THREE.Matrix4().makeTranslation(0, 0.0425 * KM, 0).multiply(new THREE.Matrix4().makeRotationX(Math.PI)).multiply(new THREE.Matrix4().makeScale(KM * 0.95, KM * 0.95, KM * 0.95)));
     if (PE.prop === 'pendulum') { rg.pend = segMesh(merge([capsule(0.25, 0.25, 11, '#d9a441'), cyl(2.4, 2.4, 0.6, '#ffd23a', 0, -12, 0).rotateX(Math.PI / 2), cyl(1.2, 1.2, 0.7, '#7a3cff', 0, -12, 0).rotateX(Math.PI / 2)]), bm, rg.inner); }
   }
 

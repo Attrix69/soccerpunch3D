@@ -9,7 +9,7 @@ Tous les modèles 3D du jeu sont sous licence **CC0 1.0 Universal** (domaine pub
 | `body_m.glb` | Corps rigé (65 os), visage sculpté, yeux et sourcils | **Quaternius**, [Universal Base Characters](https://quaternius.com/packs/universalbasecharacters.html) | CC0 1.0 |
 | `hair.glb` | Coiffures (SimpleParted, Buzzed, Long, Buns…) et barbe | **Quaternius**, Universal Base Characters | CC0 1.0 |
 
-Les fichiers sont générés par `tools/prep_chars.py` (textures réduites, cartes inutiles retirées). Le reste des personnages (maillots, shorts, chaussettes, gants, expressions du visage, couvre-chefs, capes) est construit par le code à partir de ces corps ; les crampons viennent de 3dassets.dev (`cleat.glb` ci-dessous).
+Les fichiers sont générés par `tools/prep_chars.py` (textures réduites, cartes inutiles retirées). Le reste des personnages (maillots, shorts, chaussettes, gants, expressions du visage, couvre-chefs, capes) est construit par le code à partir de ces corps ; les crampons, casques, lunettes, couronne et baguette viennent de 3dassets.dev (`cleat.glb` et `acc_*.glb` ci-dessous).
 
 ## Stade et effets (`assets/models/`, [3dassets.dev](https://3dassets.dev))
 
@@ -53,5 +53,11 @@ Les fichiers sont générés par `tools/prep_chars.py` (textures réduites, cart
 | `fx_plasma.glb` | Plasma teardrop (VFX Mesh Library) | [vfx-mesh-library-plasma-teardrop-ddd69157](https://3dassets.dev/assets/vfx-mesh-library-plasma-teardrop-ddd69157) | CC0 1.0 Universal |
 | `fx_ember.glb` | Ember cluster (VFX Mesh Library) | [vfx-mesh-library-ember-cluster-3e828dd2](https://3dassets.dev/assets/vfx-mesh-library-ember-cluster-3e828dd2) | CC0 1.0 Universal |
 | `cleat.glb` | Pair of football cleats (American Football Stadium Kit) | [american-football-stadium-kit-cleat-pair-bc704c39](https://3dassets.dev/assets/american-football-stadium-kit-cleat-pair-bc704c39) | CC0 1.0 Universal |
+| `acc_hardhat.glb` | Hard hat with cap lamp (Underground Mine and Shaft Works) | [underground-mine-and-shaft-works-hard-hat-cap-lamp-feea06fe](https://3dassets.dev/assets/underground-mine-and-shaft-works-hard-hat-cap-lamp-feea06fe) | CC0 1.0 Universal |
+| `acc_ballistic.glb` | Ballistic helmet (FPS Guns and Shooting Range) | [fps-weapon-set-and-firing-range-ballistic-helmet-ecff617d](https://3dassets.dev/assets/fps-weapon-set-and-firing-range-ballistic-helmet-ecff617d) | CC0 1.0 Universal |
+| `acc_crown.glb` | First player crown (Board Game Pieces, Dice and Tokens) | [tabletop-game-components-first-player-crown-07e75ca3](https://3dassets.dev/assets/tabletop-game-components-first-player-crown-07e75ca3) | CC0 1.0 Universal |
+| `acc_baton.glb` | Conductor Baton (Enchanted Harp Garden and Music Sanctuary) | [enchanted-harp-garden-and-music-sanctuary-conductor-ba-ea0a3166](https://3dassets.dev/assets/enchanted-harp-garden-and-music-sanctuary-conductor-ba-ea0a3166) | CC0 1.0 Universal |
+| `acc_goggles.glb` | Ski Goggles (Ski Resort and Snow Park) | [ski-resort-and-snow-park-ski-goggles-54d4a696](https://3dassets.dev/assets/ski-resort-and-snow-park-ski-goggles-54d4a696) | CC0 1.0 Universal |
+| `acc_shades.glb` | Sport Sunglasses (Beach Surf and Paddle Kit) | [beach-surf-and-paddle-kit-sport-sunglasses-b28a0db7](https://3dassets.dev/assets/beach-surf-and-paddle-kit-sport-sunglasses-b28a0db7) | CC0 1.0 Universal |
 
 Les panneaux LED, la pelouse, la foule et le tifo sont générés dans le code (aucun asset externe).
