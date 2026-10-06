@@ -257,5 +257,54 @@
   "title": "Ember cluster (VFX Mesh Library)",
   "license": "CC0 1.0 Universal",
   "bytes": 57244
+ },
+ "cleat": {
+  "slug": "american-football-stadium-kit-cleat-pair-bc704c39",
+  "url": "https://cdn.3dassets.dev/assets/22370/v1/model.glb",
+  "title": "Pair of football cleats (American Football Stadium Kit)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 60116
+ },
+ "acc_hardhat": {
+  "slug": "underground-mine-and-shaft-works-hard-hat-cap-lamp-feea06fe",
+  "url": "https://cdn.3dassets.dev/assets/24511/v1/model.glb",
+  "title": "Hard hat with cap lamp (Underground Mine and Shaft Works)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 29680
+ },
+ "acc_ballistic": {
+  "slug": "fps-weapon-set-and-firing-range-ballistic-helmet-ecff617d",
+  "url": "https://cdn.3dassets.dev/assets/19533/v1/model.glb",
+  "title": "Ballistic helmet (FPS Guns and Shooting Range)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 73956
+ },
+ "acc_crown": {
+  "slug": "tabletop-game-components-first-player-crown-07e75ca3",
+  "url": "https://cdn.3dassets.dev/assets/20878/v1/model.glb",
+  "title": "First player crown (Board Game Pieces, Dice and Tokens)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 20796
+ },
+ "acc_baton": {
+  "slug": "enchanted-harp-garden-and-music-sanctuary-conductor-ba-ea0a3166",
+  "url": "https://cdn.3dassets.dev/assets/30427/v1/model.glb",
+  "title": "Conductor Baton (Enchanted Harp Garden and Music Sanctuary)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 18528
+ },
+ "acc_goggles": {
+  "slug": "ski-resort-and-snow-park-ski-goggles-54d4a696",
+  "url": "https://cdn.3dassets.dev/assets/26014/v1/model.glb",
+  "title": "Ski Goggles (Ski Resort and Snow Park)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 15180
+ },
+ "acc_shades": {
+  "slug": "beach-surf-and-paddle-kit-sport-sunglasses-b28a0db7",
+  "url": "https://cdn.3dassets.dev/assets/39447/v1/model.glb",
+  "title": "Sport Sunglasses (Beach Surf and Paddle Kit)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 24056
  }
 }

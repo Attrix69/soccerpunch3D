@@ -21,21 +21,23 @@
     PSB[slot].init = false; FA[slot] = NaN; spd[slot] = o.spd || 0; animPh[slot] = o.ph || 0; SHF[slot] = 0; SAX[slot] = 0; SAY[slot] = 0; stT[slot] = o.stT || 0; SQ[slot] = 0; HOP[slot] = 0;
     KSHOT[slot] = o.shot ? performance.now() / 1000 : -9; UPK[slot] = o.upk || '';
     const rg = buildRig(LK[slot], team, slot, { scene: PSCENE });
-    const p = { st: o.st || 0, fx: o.fx == null ? 0.55 : o.fx, fy: o.fy == null ? 0.84 : o.fy, z: o.z || 0, dmg: 0, inv: 0, chg: o.chg || 0, spin: 0, x: 0, y: 0 };
+    const p = { st: o.st || 0, fx: o.fx == null ? 0.55 : o.fx, fy: o.fy == null ? 0.84 : o.fy, z: o.z || 0, dmg: o.dmg || 0, inv: 0, chg: o.chg || 0, spin: 0, x: 0, y: 0 };
     const keepDraft = app.drafting; app.drafting = true; // pas d'écrasement ni de joueur « déçu » sur un portrait
     updRig(rg, p, slot, 0);
     app.drafting = keepDraft;
     rg.root.position.set(0, 0, 0); rg.root.updateMatrixWorld(true);
-    const box = new THREE.Box3().setFromObject(rg.root), hgt = box.max.y - box.min.y, cy = (box.max.y + box.min.y) / 2;
+    const box = new THREE.Box3().setFromObject(rg.root, !!rg.sk), hgt = box.max.y - box.min.y, cy = (box.max.y + box.min.y) / 2;
     const dist = (hgt * 0.62) / Math.tan(THREE.MathUtils.degToRad(PCAM.fov / 2));
-    PCAM.position.set(0, cy + hgt * 0.04, dist); PCAM.lookAt(0, cy, 0); PCAM.updateProjectionMatrix();
+    PCAM.position.set(0, cy + hgt * 0.04, dist); PCAM.lookAt(0, cy, 0);
+    if (o.head && rg.bone) { const hp = new THREE.Vector3(); rg.bone.Head.getWorldPosition(hp); hp.y += 0.15; PCAM.position.set(hp.x, hp.y, hp.z + 0.95); PCAM.lookAt(hp); PCAM.fov = 27; }
+    PCAM.updateProjectionMatrix();
     const keepRes = OUTL_U.uRes.value.clone(), keepPx = OUTL_U.uPx.value;
     OUTL_U.uRes.value.set(w, h); OUTL_U.uPx.value = 4.2;
     renderer.setRenderTarget(PRT); renderer.setClearColor(0x000000, 0); renderer.clear(); renderer.render(PSCENE, PCAM);
     const hb = new Uint16Array(w * h * 4), buf = new Float32Array(w * h * 4); // cible en demi-flottants
     try { renderer.readRenderTargetPixels(PRT, 0, 0, w, h, hb); for (let k = 0; k < hb.length; k++) buf[k] = THREE.DataUtils.fromHalfFloat(hb[k]); } catch (e) { /* lecture impossible : portrait vide */ }
     renderer.setRenderTarget(null); renderer.setClearColor(0x000000, 1);
-    OUTL_U.uRes.value.copy(keepRes); OUTL_U.uPx.value = keepPx;
+    OUTL_U.uRes.value.copy(keepRes); OUTL_U.uPx.value = keepPx; PCAM.fov = 24;
     disposeRig(rg);
     const c = document.createElement('canvas'); c.width = w; c.height = h; const g = c.getContext('2d');
     const id = g.createImageData(w, h), d = id.data;
@@ -58,4 +60,4 @@
     try { url = render3DFigure(id, team, { fx: back ? -0.5 : 0.55, fy: back ? -0.86 : 0.84 }).toDataURL(); } catch (e) { url = ''; }
     return (portraits[key] = url);
   }
-  function poseShot(id, team, o) { try { return render3DFigure(id, team, o || {}).toDataURL(); } catch (e) { return ''; } }
+  function poseShot(id, team, o) { try { return render3DFigure(id, team, o || {}).toDataURL(); } catch (e) { console.error('portrait', e); return ''; } }

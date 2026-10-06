@@ -51,14 +51,15 @@ npm run serve    # sert le dossier sur http://localhost:8080
   - `31-assets.js` : chargement des modèles GLB embarqués
   - `32-pitch.js`, `33-stadium.js` : pelouse, panneaux LED, tribunes, foule animée sur le GPU, tifo, projecteurs
   - `35-fx.js` : sang, particules, textes, effets VFX 3D
-  - `40-looks.js` à `43-portrait.js` : personnages toon procéduraux, poses reprises de la 2D, portraits du draft
+  - `40-looks.js` à `44-skin.js` : looks et tenues des 20 joueurs, poses de la 2D (cinématique inverse sur le squelette), tenue en coques de tissu, visage, portraits du draft
   - `45-powers.js`, `50-ball.js`, `76-fx3d.js` : ultimes, ballon, buts, filets et effets des grands moments
   - `72-camera.js` : réalisation TV (plans de but, de KO, d'ultime, intro du match)
-- `assets/models/` : modèles 3D CC0 de [3dassets.dev](https://3dassets.dev) (voir `assets/CREDITS.md`)
+- `assets/models/` : modèles 3D CC0 de [3dassets.dev](https://3dassets.dev) · `assets/chars/` : corps et coiffures Quaternius (CC0), générés par `tools/prep_chars.py` (voir `assets/CREDITS.md`)
 - `src/sfx/` : sons du jeu · `vendor/` : three.js empaqueté
 - `build.js` : assemble le tout (`@@include`, `@@glb`, `@@sfx`, `@@raw`)
 
-Les personnages, le ballon, la pelouse, la foule et les panneaux sont générés par le code ; le stade et les effets
-s'appuient sur les modèles de 3dassets.dev.
+Les joueurs sont des corps rigés (Quaternius, CC0) habillés par le code (maillot, short, chaussettes, gants, visage peint selon les
+coups reçus) avec de vrais crampons de 3dassets.dev ; le ballon, la pelouse, la foule et les panneaux sont générés par le code ;
+le stade et les effets s'appuient sur les modèles de 3dassets.dev.
 
 Pour les tests, `index.html?gfx=ultra|high|perf` force un niveau graphique.
