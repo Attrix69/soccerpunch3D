@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#050506">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Tacle Fury 3D">
+<meta name="description" content="Foot de combat 3 contre 3 en 3D : tacles dévastateurs, super tirs, ultimes, zéro arbitre. Solo ou en ligne avec un pote.">
+<title>Tacle Fury 3D</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='6' fill='%23050506'/%3E%3Cpath d='M18 8c6 16 6 32 0 48M32 6c6 18 6 34 0 52M46 8c6 16 6 32 0 48' fill='none' stroke='%23d4111a' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>/* polices embarquées (SIL Open Font License) : le jeu marche aussi hors ligne */
+@@include css/fonts.css
+</style>
+<style>
+@@include css/main.css
+@@include css/premium.css
+@@include css/three.css
+</style>
+</head>
+<body>
+@@include body.html
+<script>/* three.js (MIT) et ses modules : rendu, post-traitement, chargeur glTF */
+@@raw vendor/three.bundle.js
+</script>
+<script>
+@@include js/sim.js
+</script>
+<script>/* modèles 3D (CC0, 3dassets.dev — voir assets/CREDITS.md) */
+@@glb assets/models
+</script>
+<script>/* sons enregistrés (CC0, voir README) : MP3 mono embarqués, décodés au premier geste */
+@@sfx sfx
+</script>
+<script>
+@@include js/game/*.js
+</script>
+</body>
+</html>

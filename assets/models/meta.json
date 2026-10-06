@@ -1,0 +1,261 @@
+{
+ "floodlight": {
+  "slug": "football-soccer-club-grounds-floodlight-mast-282b2db3",
+  "url": "https://cdn.3dassets.dev/assets/19134/v1/model.glb",
+  "title": "Four lamp floodlight mast (Football Soccer Stadium and Club Grounds)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 10544
+ },
+ "stand_bay": {
+  "slug": "football-soccer-club-grounds-seated-stand-bay-237fb200",
+  "url": "https://cdn.3dassets.dev/assets/19104/v1/model.glb",
+  "title": "Three row seated stand bay (Football Soccer Stadium and Club Grounds)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 35212
+ },
+ "stand_roof": {
+  "slug": "football-soccer-club-grounds-stand-roof-bay-97c354e8",
+  "url": "https://cdn.3dassets.dev/assets/19107/v1/model.glb",
+  "title": "Cantilever stand roof bay (Football Soccer Stadium and Club Grounds)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 6552
+ },
+ "stand_rail": {
+  "slug": "football-soccer-club-grounds-stand-rear-railing-1252a9ae",
+  "url": "https://cdn.3dassets.dev/assets/19109/v1/model.glb",
+  "title": "Stand rear safety rail (Football Soccer Stadium and Club Grounds)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 55612
+ },
+ "dugout": {
+  "slug": "football-soccer-club-grounds-dugout-shelter-ea708920",
+  "url": "https://cdn.3dassets.dev/assets/19110/v1/model.glb",
+  "title": "Six seat team dugout (Football Soccer Stadium and Club Grounds)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 20256
+ },
+ "corner_flag": {
+  "slug": "football-soccer-club-grounds-corner-flag-65953ad0",
+  "url": "https://cdn.3dassets.dev/assets/19077/v1/model.glb",
+  "title": "Corner flag with flexible pole (Football Soccer Stadium and Club Grounds)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 6408
+ },
+ "goal": {
+  "slug": "football-soccer-club-grounds-full-size-goal-08c07f03",
+  "url": "https://cdn.3dassets.dev/assets/19087/v1/model.glb",
+  "title": "Full size open net soccer goal (Football Soccer Stadium and Club Grounds)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 100940
+ },
+ "camera_platform": {
+  "slug": "football-soccer-club-grounds-camera-platform-81d16afb",
+  "url": "https://cdn.3dassets.dev/assets/19138/v1/model.glb",
+  "title": "Broadcast camera platform (Football Soccer Stadium and Club Grounds)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 18484
+ },
+ "water_carrier": {
+  "slug": "football-soccer-club-grounds-water-bottle-carrier-3c5028a4",
+  "url": "https://cdn.3dassets.dev/assets/19128/v1/model.glb",
+  "title": "Six bottle sideline carrier (Football Soccer Stadium and Club Grounds)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 18076
+ },
+ "cooler": {
+  "slug": "football-soccer-club-grounds-drink-cooler-e552e4f8",
+  "url": "https://cdn.3dassets.dev/assets/19129/v1/model.glb",
+  "title": "Insulated sideline drink cooler (Football Soccer Stadium and Club Grounds)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 8192
+ },
+ "treatment_table": {
+  "slug": "football-soccer-club-grounds-treatment-table-2eeb6a53",
+  "url": "https://cdn.3dassets.dev/assets/19126/v1/model.glb",
+  "title": "Sideline treatment table (Football Soccer Stadium and Club Grounds)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 5556
+ },
+ "camera_crane": {
+  "slug": "american-football-stadium-kit-camera-crane-470b66eb",
+  "url": "https://cdn.3dassets.dev/assets/22389/v1/model.glb",
+  "title": "Sideline broadcast camera crane (American Football Stadium Kit)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 12872
+ },
+ "camera_rail": {
+  "slug": "american-football-stadium-kit-camera-rail-0a847522",
+  "url": "https://cdn.3dassets.dev/assets/22343/v1/model.glb",
+  "title": "Sideline tracking camera rail (American Football Stadium Kit)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 9312
+ },
+ "speaker": {
+  "slug": "american-football-stadium-kit-speaker-stack-b25cda32",
+  "url": "https://cdn.3dassets.dev/assets/22341/v1/model.glb",
+  "title": "Stadium speaker stack (American Football Stadium Kit)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 10932
+ },
+ "stretcher": {
+  "slug": "american-football-stadium-kit-folding-stretcher-1f3c5c30",
+  "url": "https://cdn.3dassets.dev/assets/22393/v1/model.glb",
+  "title": "Folded-leg medical stretcher (American Football Stadium Kit)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 12276
+ },
+ "fx_burst": {
+  "slug": "vfx-mesh-library-radial-impact-burst-29db0fae",
+  "url": "https://cdn.3dassets.dev/assets/21855/v1/model.glb",
+  "title": "Radial impact burst, medium (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 62556
+ },
+ "fx_burst_l": {
+  "slug": "vfx-mesh-library-radial-impact-burst-large-fa84aa2c",
+  "url": "https://cdn.3dassets.dev/assets/21929/v1/model.glb",
+  "title": "Radial impact burst, large (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 85632
+ },
+ "fx_burst_s": {
+  "slug": "vfx-mesh-library-radial-impact-burst-small-ae2b0fee",
+  "url": "https://cdn.3dassets.dev/assets/21928/v1/model.glb",
+  "title": "Radial impact burst, small (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 47248
+ },
+ "fx_shock": {
+  "slug": "vfx-mesh-library-shockwave-ring-5b4f1489",
+  "url": "https://cdn.3dassets.dev/assets/21890/v1/model.glb",
+  "title": "Shockwave ring, medium (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 76248
+ },
+ "fx_shock_l": {
+  "slug": "vfx-mesh-library-shockwave-ring-large-9568b02e",
+  "url": "https://cdn.3dassets.dev/assets/21931/v1/model.glb",
+  "title": "Shockwave ring, large (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 85504
+ },
+ "fx_slash": {
+  "slug": "vfx-mesh-library-single-crescent-slash-1e55e042",
+  "url": "https://cdn.3dassets.dev/assets/21879/v1/model.glb",
+  "title": "Single crescent slash (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 27812
+ },
+ "fx_upper": {
+  "slug": "vfx-mesh-library-upward-arc-70b4e1cf",
+  "url": "https://cdn.3dassets.dev/assets/21885/v1/model.glb",
+  "title": "Upward arc (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 26348
+ },
+ "fx_claw": {
+  "slug": "vfx-mesh-library-triple-slash-fan-f549d350",
+  "url": "https://cdn.3dassets.dev/assets/21882/v1/model.glb",
+  "title": "Triple slash fan (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 39916
+ },
+ "fx_lightning": {
+  "slug": "vfx-mesh-library-lightning-strike-f525cfcd",
+  "url": "https://cdn.3dassets.dev/assets/21927/v1/model.glb",
+  "title": "Lightning strike (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 47408
+ },
+ "fx_fireball": {
+  "slug": "vfx-mesh-library-fireball-with-tail-e103d489",
+  "url": "https://cdn.3dassets.dev/assets/21872/v1/model.glb",
+  "title": "Fireball with flame tail (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 83524
+ },
+ "fx_beam": {
+  "slug": "vfx-mesh-library-beam-segment-cf960155",
+  "url": "https://cdn.3dassets.dev/assets/21877/v1/model.glb",
+  "title": "Beam segment, one metre (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 62752
+ },
+ "fx_charge": {
+  "slug": "vfx-mesh-library-charge-up-sphere-9df2f698",
+  "url": "https://cdn.3dassets.dev/assets/21918/v1/model.glb",
+  "title": "Charge up sphere (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 64804
+ },
+ "fx_crack": {
+  "slug": "vfx-mesh-library-ground-crack-star-e44584aa",
+  "url": "https://cdn.3dassets.dev/assets/21860/v1/model.glb",
+  "title": "Ground crack star (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 94832
+ },
+ "fx_dust": {
+  "slug": "vfx-mesh-library-dust-puff-dome-735b0dd5",
+  "url": "https://cdn.3dassets.dev/assets/21858/v1/model.glb",
+  "title": "Dust puff dome (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 63268
+ },
+ "fx_sparkfan": {
+  "slug": "vfx-mesh-library-spark-fan-a5e37eaa",
+  "url": "https://cdn.3dassets.dev/assets/21854/v1/model.glb",
+  "title": "Spark fan (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 31120
+ },
+ "fx_parry": {
+  "slug": "vfx-mesh-library-parry-spark-star-bb3a9ef4",
+  "url": "https://cdn.3dassets.dev/assets/21888/v1/model.glb",
+  "title": "Parry spark star (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 42180
+ },
+ "fx_muzzle": {
+  "slug": "vfx-mesh-library-muzzle-star-flash-large-4cec3aea",
+  "url": "https://cdn.3dassets.dev/assets/21933/v1/model.glb",
+  "title": "Muzzle star flash, large (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 55264
+ },
+ "fx_dome": {
+  "slug": "vfx-mesh-library-expanding-dome-9f4d5d32",
+  "url": "https://cdn.3dassets.dev/assets/21891/v1/model.glb",
+  "title": "Expanding force dome (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 95152
+ },
+ "fx_spinring": {
+  "slug": "vfx-mesh-library-spin-arc-ring-f4399ff2",
+  "url": "https://cdn.3dassets.dev/assets/21884/v1/model.glb",
+  "title": "Spin arc ring (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 45932
+ },
+ "fx_shockcres": {
+  "slug": "vfx-mesh-library-shockwave-crescent-f03758cf",
+  "url": "https://cdn.3dassets.dev/assets/21889/v1/model.glb",
+  "title": "Shockwave crescent (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 42368
+ },
+ "fx_plasma": {
+  "slug": "vfx-mesh-library-plasma-teardrop-ddd69157",
+  "url": "https://cdn.3dassets.dev/assets/21868/v1/model.glb",
+  "title": "Plasma teardrop (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 44120
+ },
+ "fx_ember": {
+  "slug": "vfx-mesh-library-ember-cluster-3e828dd2",
+  "url": "https://cdn.3dassets.dev/assets/21922/v1/model.glb",
+  "title": "Ember cluster (VFX Mesh Library)",
+  "license": "CC0 1.0 Universal",
+  "bytes": 57244
+ }
+}
