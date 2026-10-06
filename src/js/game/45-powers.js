@@ -26,8 +26,8 @@
     ring(e.x, e.y, c[0], 90); ring(e.x, e.y, c[1], 60); impact(e.x, e.y, 14, 80);
     { // la frappe d'un ultime déchire l'air : onde au sol, dôme d'énergie, éclat orienté vers le but
       const dx = (e.tx || e.x + 1) - e.x, dy = (e.ty || e.y) - e.y;
-      vfx('fx_shock_l', e.x, e.y, 0, { c1: c[0], c0: c[1], scale: 1.2, s1: 4.2, life: 0.7, grow: 0.6 });
-      vfx('fx_dome', e.x, e.y, 0, { c1: c[0], c0: c[1], scale: 0.8, s1: 3.2, life: 0.55, grow: 0.5 });
+      vfx('fx_shock_l', e.x, e.y, 0, { c1: c[0], c0: c[2] || c[1], scale: 1.2, s1: 4.2, life: 0.7, grow: 0.6, int: 1.4 });
+      vfx('fx_dome', e.x, e.y, 0, { c1: c[0], c0: c[2] || c[1], scale: 0.8, s1: 2.8, life: 0.5, grow: 0.4, int: 0.55 });
       vfx('fx_shockcres', e.x, e.y, 30, { c1: c[0], c0: '#ffffff', scale: 1.6, s1: 3, life: 0.45, yaw: Math.atan2(-dy, dx), grow: 0.4 });
       if (k === 'bordee') vfx('fx_muzzle', e.x, e.y, 26, { c2: '#ff6a00', c0: '#ffd23a', scale: 1.6, s1: 3.4, life: 0.4, dir: [dx, dy, 0] });
       if (k === 'upper') vfx('fx_upper', e.x, e.y, 20, { c1: c[0], c0: '#fff1d6', scale: 1.4, s1: 3.2, life: 0.5, yaw: Math.atan2(-dy, dx), sy: 1.6 });

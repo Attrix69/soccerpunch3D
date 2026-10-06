@@ -65,8 +65,9 @@
       tx += (1 - introU) * -260 * cam.flip; ty += (1 - introU) * -120 * cam.flip; zt = lerp(0.55, zt, introU); rotT += (1 - introU) * 0.02;
       pitchT = lerp(1.05, pitchT, introU); yawT += (1 - introU) * 0.75;
     }
-    // 5. ton joueur reste dans le cadre
-    if (me && DIRC.intro <= 0) {
+    // 5. ton joueur reste dans le cadre (sauf pendant le plan du but et celui de la fin : on regarde le filet, la fête)
+    const freeShot = DIRC.shot && (DIRC.shot.kind === 'goal' || DIRC.shot.kind === 'end');
+    if (me && DIRC.intro <= 0 && !freeShot) {
       const hw = 1030 / zt * 0.5 * 0.86, hh = 980 / zt * 0.36;
       tx = clamp(tx, me.x - hw, me.x + hw); ty = clamp(ty, me.y - hh, me.y + hh);
     }

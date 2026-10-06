@@ -7738,7 +7738,8 @@ var SFXD = {
     for (let k = 0; k < DYN.length; k++) {
       const L = DYN[k], w = k < n ? want[k] : null;
       if (!w) { L.intensity = 0; continue; }
-      toW(w.x, w.y, w.z, L.position); L.color.set(w.c); L.intensity = w.i; L.distance = w.r;
+      // jamais au ras du sol : une source à 60 cm du gazon y brûle une tache blanche au lieu d'éclairer la scène
+      toW(w.x, w.y, Math.max(w.z, 70), L.position); L.color.set(w.c); L.intensity = w.i * 2.2; L.distance = w.r * 1.3;
     }
   }
   let grayT = 0;
@@ -7954,7 +7955,20 @@ var SFXD = {
     const rd = seeded(9);
     cell(0, () => { g.fillStyle = '#fff'; g.beginPath(); for (let a = 0; a <= 24; a++) { const an = a / 24 * 6.283, r = 34 * (0.75 + rd() * 0.4); g.lineTo(Math.cos(an) * r, Math.sin(an) * r); } g.fill(); for (let n = 0; n < 9; n++) { const an = rd() * 6.283, d = 40 + rd() * 18; g.beginPath(); g.arc(Math.cos(an) * d, Math.sin(an) * d, 3 + rd() * 6, 0, 7); g.fill(); } });
     cell(1, () => { const lg = g.createLinearGradient(-60, 0, 60, 0); lg.addColorStop(0, 'rgba(255,255,255,0)'); lg.addColorStop(0.2, '#fff'); lg.addColorStop(0.8, '#fff'); lg.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = lg; g.fillRect(-60, -22, 120, 44); });
-    cell(2, () => { g.strokeStyle = '#fff'; g.lineCap = 'round'; for (let n = 0; n < 9; n++) { const a = n * 0.7 + rd() * 0.5; let x = 0, y = 0; g.lineWidth = 7; g.beginPath(); g.moveTo(0, 0); for (let j = 0; j < 4; j++) { const r = 60 * (0.18 + rd() * 0.16); x += Math.cos(a + (rd() - 0.5) * 0.8) * r; y += Math.sin(a + (rd() - 0.5) * 0.8) * r; g.lineTo(x, y); g.lineWidth *= 0.8; } g.stroke(); } g.fillStyle = 'rgba(255,255,255,.7)'; g.beginPath(); g.arc(0, 0, 16, 0, 7); g.fill(); });
+    cell(2, () => { // fissure : terre retournée autour d'un cratère, branches brisées qui se divisent
+      const rg = g.createRadialGradient(0, 0, 0, 0, 0, 62); rg.addColorStop(0, 'rgba(255,255,255,.55)'); rg.addColorStop(0.45, 'rgba(255,255,255,.22)'); rg.addColorStop(1, 'rgba(255,255,255,0)');
+      g.fillStyle = rg; g.beginPath(); g.arc(0, 0, 62, 0, 7); g.fill();
+      g.fillStyle = '#fff'; g.beginPath(); for (let a = 0; a <= 14; a++) { const an = a / 14 * 6.283, r = 15 * (0.7 + rd() * 0.6); g.lineTo(Math.cos(an) * r, Math.sin(an) * r); } g.fill();
+      g.strokeStyle = '#fff'; g.lineJoin = 'miter'; g.lineCap = 'butt';
+      const branch = (x, y, a, L, w, d) => {
+        g.lineWidth = w; g.beginPath(); g.moveTo(x, y);
+        const n = 3 + ((rd() * 2) | 0);
+        for (let j = 0; j < n; j++) { a += (rd() - 0.5) * 0.9; x += Math.cos(a) * L / n; y += Math.sin(a) * L / n; g.lineTo(x, y); }
+        g.stroke();
+        if (d < 2) for (let k = 0; k < 2; k++) if (rd() < 0.7) branch(x - Math.cos(a) * L * 0.3 * k, y - Math.sin(a) * L * 0.3 * k, a + (rd() < 0.5 ? -1 : 1) * (0.4 + rd() * 0.5), L * 0.5, w * 0.55, d + 1);
+      };
+      const nb = 6; for (let n = 0; n < nb; n++) { const a = n / nb * 6.283 + rd() * 0.6; branch(Math.cos(a) * 10, Math.sin(a) * 10, a, 26 + rd() * 20, 4.5, 0); }
+    });
     cell(3, () => { g.strokeStyle = '#fff'; g.lineCap = 'round'; g.lineWidth = 12; for (const o of [-30, 0, 30]) { g.beginPath(); g.moveTo(-56, o - 10); g.quadraticCurveTo(0, o + 8, 56, o - 6); g.stroke(); } });
     cell(4, () => { g.fillStyle = '#fff'; g.beginPath(); for (let a = 0; a <= 30; a++) { const an = a / 30 * 6.283, r = 44 * (0.7 + 0.3 * Math.sin(an * 5 + 1) * rd()); g.lineTo(Math.cos(an) * r, Math.sin(an) * r); } g.fill(); });
     cell(5, () => { const rg = g.createRadialGradient(0, 0, 0, 0, 0, 60); rg.addColorStop(0, '#fff'); rg.addColorStop(0.6, 'rgba(255,255,255,.6)'); rg.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = rg; g.beginPath(); g.arc(0, 0, 60, 0, 7); g.fill(); });
@@ -8255,8 +8269,8 @@ var SFXD = {
           'vFan = aPart==3.0 ? iSkin : aPart==4.0 ? vec3(0.07,0.075,0.09) : iShirt;',
           // bras : levés quand ça chauffe, écharpe tendue pour certains (iInfo.z)
           'if(aPart==1.0||aPart==2.0){float sd=aPart==1.0?-1.0:1.0;float up=clamp(hy*(0.55+0.45*sin(uTime*(3.0+ph*2.0)+ph*20.0))+iInfo.z*0.75+0.08*sin(uTime*0.7+ph*30.0),0.0,1.0);',
-          '  float a=up*2.75;vec3 p=transformed-vec3(0.3*sd,1.36,0.0);float ca=cos(a),sa=sin(a);transformed=vec3(p.x*ca-p.y*sa*(-sd),p.x*sa*(-sd)+p.y*ca,p.z)+vec3(0.3*sd,1.36,0.0);',
-          '  if(aPart==1.0&&up>0.5)vFan=mix(iShirt,iSkin,0.0);}',
+          // rotation vers l'extérieur autour de l'épaule (angle sd*a), le bras pendant finit levé au-dessus de la tête
+          '  float a=up*2.75;vec3 p=transformed-vec3(0.3*sd,1.36,0.0);float ca=cos(a),sa=sin(a)*sd;transformed=vec3(p.x*ca-p.y*sa,p.x*sa+p.y*ca,p.z)+vec3(0.3*sd,1.36,0.0);}',
           // tout le corps : sautille quand l'équipe marque, se balance sinon ; la ola fait le tour du stade
           'float jmp=max(0.0,sin(uTime*(7.0+ph*3.0)+ph*40.0))*0.32*hy;',
           'vec4 wp=instanceMatrix*vec4(0.,0.,0.,1.);float ola=uWave*max(0.0,1.0-abs(mod(atan(wp.z-14.7,wp.x-24.6)*3.0-uTime*3.0,6.2832)-3.1416)*1.2)*0.5;',
@@ -9823,8 +9837,8 @@ var SFXD = {
     ring(e.x, e.y, c[0], 90); ring(e.x, e.y, c[1], 60); impact(e.x, e.y, 14, 80);
     { // la frappe d'un ultime déchire l'air : onde au sol, dôme d'énergie, éclat orienté vers le but
       const dx = (e.tx || e.x + 1) - e.x, dy = (e.ty || e.y) - e.y;
-      vfx('fx_shock_l', e.x, e.y, 0, { c1: c[0], c0: c[1], scale: 1.2, s1: 4.2, life: 0.7, grow: 0.6 });
-      vfx('fx_dome', e.x, e.y, 0, { c1: c[0], c0: c[1], scale: 0.8, s1: 3.2, life: 0.55, grow: 0.5 });
+      vfx('fx_shock_l', e.x, e.y, 0, { c1: c[0], c0: c[2] || c[1], scale: 1.2, s1: 4.2, life: 0.7, grow: 0.6, int: 1.4 });
+      vfx('fx_dome', e.x, e.y, 0, { c1: c[0], c0: c[2] || c[1], scale: 0.8, s1: 2.8, life: 0.5, grow: 0.4, int: 0.55 });
       vfx('fx_shockcres', e.x, e.y, 30, { c1: c[0], c0: '#ffffff', scale: 1.6, s1: 3, life: 0.45, yaw: Math.atan2(-dy, dx), grow: 0.4 });
       if (k === 'bordee') vfx('fx_muzzle', e.x, e.y, 26, { c2: '#ff6a00', c0: '#ffd23a', scale: 1.6, s1: 3.4, life: 0.4, dir: [dx, dy, 0] });
       if (k === 'upper') vfx('fx_upper', e.x, e.y, 20, { c1: c[0], c0: '#fff1d6', scale: 1.4, s1: 3.2, life: 0.5, yaw: Math.atan2(-dy, dx), sy: 1.6 });
@@ -10720,8 +10734,9 @@ var SFXD = {
       tx += (1 - introU) * -260 * cam.flip; ty += (1 - introU) * -120 * cam.flip; zt = lerp(0.55, zt, introU); rotT += (1 - introU) * 0.02;
       pitchT = lerp(1.05, pitchT, introU); yawT += (1 - introU) * 0.75;
     }
-    // 5. ton joueur reste dans le cadre
-    if (me && DIRC.intro <= 0) {
+    // 5. ton joueur reste dans le cadre (sauf pendant le plan du but et celui de la fin : on regarde le filet, la fête)
+    const freeShot = DIRC.shot && (DIRC.shot.kind === 'goal' || DIRC.shot.kind === 'end');
+    if (me && DIRC.intro <= 0 && !freeShot) {
       const hw = 1030 / zt * 0.5 * 0.86, hh = 980 / zt * 0.36;
       tx = clamp(tx, me.x - hw, me.x + hw); ty = clamp(ty, me.y - hh, me.y + hh);
     }
@@ -11188,8 +11203,8 @@ var SFXD = {
       case 'deflect': vfx('fx_parry', e.x, e.y, 30, { c0: '#ffffff', c2: '#9fd3ff', scale: 0.6, s1: 1.2, life: 0.22 }); break;
       case 'dodge': vfx('fx_parry', e.x, e.y, 30, { c0: '#ffffff', c2: '#7dff9a', scale: 0.7, s1: 1.5, life: 0.3 }); vfx('fx_spinring', e.x, e.y, 3, { c0: '#ffffff', c1: '#7dff9a', scale: 0.8, s1: 2, life: 0.35 }); break;
       case 'kiball': { const c = KICOL[e.t]; vfx('fx_muzzle', e.x, e.y, 30, { c2: c[1], c0: c[0], scale: 0.5, s1: 1.1, life: 0.2, yaw: R() * 6 }); break; }
-      case 'kiboom': { const c = KICOL[e.t]; vfx('fx_dome', e.x, e.y, 0, { c1: c[1], c0: c[0], scale: 0.5, s1: 2.4, life: 0.45, grow: 0.5 }); vfx('fx_burst', e.x, e.y, 30, { c1: c[1], c0: '#ffffff', c2: c[2], scale: 0.7, s1: 1.8, life: 0.3 }); break; }
-      case 'beam': { const c = KICOL[e.t]; vfx('fx_shock_l', e.x, e.y, 0, { c1: c[1], c0: c[0], scale: 1, s1: 4, life: 0.6 }); vfx('fx_dome', e.x, e.y, 0, { c1: c[1], c0: c[0], scale: 0.6, s1: 2.6, life: 0.5 }); crowdHype(e.t, 1, 2); break; }
+      case 'kiboom': { const c = KICOL[e.t]; vfx('fx_dome', e.x, e.y, 0, { c1: c[1], c0: c[0], scale: 0.5, s1: 2.2, life: 0.4, grow: 0.4, int: 0.6 }); vfx('fx_burst', e.x, e.y, 30, { c1: c[1], c0: '#ffffff', c2: c[2], scale: 0.7, s1: 1.8, life: 0.3 }); break; }
+      case 'beam': { const c = KICOL[e.t]; vfx('fx_shock_l', e.x, e.y, 0, { c1: c[1], c0: c[0], scale: 1, s1: 4, life: 0.6 }); vfx('fx_dome', e.x, e.y, 0, { c1: c[1], c0: c[0], scale: 0.6, s1: 2.4, life: 0.45, int: 0.6 }); crowdHype(e.t, 1, 2); break; }
       case 'super': {
         const p = e.i >= 0 && lastV ? lastV.players[e.i] : null, dx = p ? p.fx : 1, dy = p ? p.fy : 0;
         const c = e.uk ? (UCOL[e.uk] || UCOL.upper) : e.u ? ['#ff1e2e', '#ffffff', '#ff6070'] : ['#ff8a1a', '#fff1c2', '#ff3a1a'];
@@ -11201,7 +11216,7 @@ var SFXD = {
       case 'fly': vfx('fx_shockcres', e.x, e.y, 34, { c1: '#ff2a1e', c0: '#ffffff', scale: 0.9, s1: 1.6, life: 0.3, yaw: R() * 6 }); break;
       case 'punt': vfx('fx_shock', e.x, e.y, 0, { c1: e.ob ? '#c6ff1a' : '#9fd3ff', c0: '#ffffff', scale: 0.5, s1: 1.8, life: 0.35 }); break;
       case 'tr':
-        if (e.s === 'mur' || e.s === 'blinde') vfx('fx_dome', e.x, e.y, 0, { c1: e.s === 'mur' ? '#9fd3ff' : '#c6ff1a', c0: '#ffffff', scale: 0.8, s1: 1.8, life: 0.4 });
+        if (e.s === 'mur' || e.s === 'blinde') vfx('fx_dome', e.x, e.y, 0, { c1: e.s === 'mur' ? '#9fd3ff' : '#c6ff1a', c0: '#ffffff', scale: 0.8, s1: 1.8, life: 0.4, int: 0.8 });
         else if (e.s === 'berserk') vfx('fx_burst_l', e.x, e.y, 40, { c1: '#ff2a1e', c0: '#ffd0c0', c2: '#ff2a1e', scale: 0.8, s1: 2.2, life: 0.4 });
         else if (e.s === 'poing' || e.s === 'scorpion') vfx('fx_burst', e.x, e.y, 60, { c1: '#ff6a3a', c0: '#ffffff', c2: '#ffd23a', scale: 0.7, s1: 1.6, life: 0.25 });
         else if (e.s === 'transe') vfx('fx_charge', e.x, e.y, 40, { c1: '#a66bff', c0: '#ffffff', scale: 0.6, s1: 1.4, life: 0.5 });
@@ -12030,7 +12045,7 @@ var SFXD = {
         if (n !== app.lastCount && n >= 1 && n <= 3) { app.lastCount = n; AU.beep(660, 0.14); AU.call(String(n)); }
       }
       if (V.phase === 'end') {
-        if (!app.endShown) { app.endT += dt; if (app.endT > 1.6) { app.endShown = true; showEnd(V); } }
+        if (!app.endShown) { app.endT += dt; if (app.endT > 3) { app.endShown = true; showEnd(V); } } // 3 s : on laisse le temps de voir la fête en 3D
       } else { app.endT = 0; if (app.endShown) { app.endShown = false; hideScr('end'); } }
     }
   }

@@ -175,8 +175,8 @@
           'vFan = aPart==3.0 ? iSkin : aPart==4.0 ? vec3(0.07,0.075,0.09) : iShirt;',
           // bras : levés quand ça chauffe, écharpe tendue pour certains (iInfo.z)
           'if(aPart==1.0||aPart==2.0){float sd=aPart==1.0?-1.0:1.0;float up=clamp(hy*(0.55+0.45*sin(uTime*(3.0+ph*2.0)+ph*20.0))+iInfo.z*0.75+0.08*sin(uTime*0.7+ph*30.0),0.0,1.0);',
-          '  float a=up*2.75;vec3 p=transformed-vec3(0.3*sd,1.36,0.0);float ca=cos(a),sa=sin(a);transformed=vec3(p.x*ca-p.y*sa*(-sd),p.x*sa*(-sd)+p.y*ca,p.z)+vec3(0.3*sd,1.36,0.0);',
-          '  if(aPart==1.0&&up>0.5)vFan=mix(iShirt,iSkin,0.0);}',
+          // rotation vers l'extérieur autour de l'épaule (angle sd*a), le bras pendant finit levé au-dessus de la tête
+          '  float a=up*2.75;vec3 p=transformed-vec3(0.3*sd,1.36,0.0);float ca=cos(a),sa=sin(a)*sd;transformed=vec3(p.x*ca-p.y*sa,p.x*sa+p.y*ca,p.z)+vec3(0.3*sd,1.36,0.0);}',
           // tout le corps : sautille quand l'équipe marque, se balance sinon ; la ola fait le tour du stade
           'float jmp=max(0.0,sin(uTime*(7.0+ph*3.0)+ph*40.0))*0.32*hy;',
           'vec4 wp=instanceMatrix*vec4(0.,0.,0.,1.);float ola=uWave*max(0.0,1.0-abs(mod(atan(wp.z-14.7,wp.x-24.6)*3.0-uTime*3.0,6.2832)-3.1416)*1.2)*0.5;',

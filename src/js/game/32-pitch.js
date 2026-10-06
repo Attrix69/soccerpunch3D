@@ -115,7 +115,20 @@
     const rd = seeded(9);
     cell(0, () => { g.fillStyle = '#fff'; g.beginPath(); for (let a = 0; a <= 24; a++) { const an = a / 24 * 6.283, r = 34 * (0.75 + rd() * 0.4); g.lineTo(Math.cos(an) * r, Math.sin(an) * r); } g.fill(); for (let n = 0; n < 9; n++) { const an = rd() * 6.283, d = 40 + rd() * 18; g.beginPath(); g.arc(Math.cos(an) * d, Math.sin(an) * d, 3 + rd() * 6, 0, 7); g.fill(); } });
     cell(1, () => { const lg = g.createLinearGradient(-60, 0, 60, 0); lg.addColorStop(0, 'rgba(255,255,255,0)'); lg.addColorStop(0.2, '#fff'); lg.addColorStop(0.8, '#fff'); lg.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = lg; g.fillRect(-60, -22, 120, 44); });
-    cell(2, () => { g.strokeStyle = '#fff'; g.lineCap = 'round'; for (let n = 0; n < 9; n++) { const a = n * 0.7 + rd() * 0.5; let x = 0, y = 0; g.lineWidth = 7; g.beginPath(); g.moveTo(0, 0); for (let j = 0; j < 4; j++) { const r = 60 * (0.18 + rd() * 0.16); x += Math.cos(a + (rd() - 0.5) * 0.8) * r; y += Math.sin(a + (rd() - 0.5) * 0.8) * r; g.lineTo(x, y); g.lineWidth *= 0.8; } g.stroke(); } g.fillStyle = 'rgba(255,255,255,.7)'; g.beginPath(); g.arc(0, 0, 16, 0, 7); g.fill(); });
+    cell(2, () => { // fissure : terre retournée autour d'un cratère, branches brisées qui se divisent
+      const rg = g.createRadialGradient(0, 0, 0, 0, 0, 62); rg.addColorStop(0, 'rgba(255,255,255,.55)'); rg.addColorStop(0.45, 'rgba(255,255,255,.22)'); rg.addColorStop(1, 'rgba(255,255,255,0)');
+      g.fillStyle = rg; g.beginPath(); g.arc(0, 0, 62, 0, 7); g.fill();
+      g.fillStyle = '#fff'; g.beginPath(); for (let a = 0; a <= 14; a++) { const an = a / 14 * 6.283, r = 15 * (0.7 + rd() * 0.6); g.lineTo(Math.cos(an) * r, Math.sin(an) * r); } g.fill();
+      g.strokeStyle = '#fff'; g.lineJoin = 'miter'; g.lineCap = 'butt';
+      const branch = (x, y, a, L, w, d) => {
+        g.lineWidth = w; g.beginPath(); g.moveTo(x, y);
+        const n = 3 + ((rd() * 2) | 0);
+        for (let j = 0; j < n; j++) { a += (rd() - 0.5) * 0.9; x += Math.cos(a) * L / n; y += Math.sin(a) * L / n; g.lineTo(x, y); }
+        g.stroke();
+        if (d < 2) for (let k = 0; k < 2; k++) if (rd() < 0.7) branch(x - Math.cos(a) * L * 0.3 * k, y - Math.sin(a) * L * 0.3 * k, a + (rd() < 0.5 ? -1 : 1) * (0.4 + rd() * 0.5), L * 0.5, w * 0.55, d + 1);
+      };
+      const nb = 6; for (let n = 0; n < nb; n++) { const a = n / nb * 6.283 + rd() * 0.6; branch(Math.cos(a) * 10, Math.sin(a) * 10, a, 26 + rd() * 20, 4.5, 0); }
+    });
     cell(3, () => { g.strokeStyle = '#fff'; g.lineCap = 'round'; g.lineWidth = 12; for (const o of [-30, 0, 30]) { g.beginPath(); g.moveTo(-56, o - 10); g.quadraticCurveTo(0, o + 8, 56, o - 6); g.stroke(); } });
     cell(4, () => { g.fillStyle = '#fff'; g.beginPath(); for (let a = 0; a <= 30; a++) { const an = a / 30 * 6.283, r = 44 * (0.7 + 0.3 * Math.sin(an * 5 + 1) * rd()); g.lineTo(Math.cos(an) * r, Math.sin(an) * r); } g.fill(); });
     cell(5, () => { const rg = g.createRadialGradient(0, 0, 0, 0, 0, 60); rg.addColorStop(0, '#fff'); rg.addColorStop(0.6, 'rgba(255,255,255,.6)'); rg.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = rg; g.beginPath(); g.arc(0, 0, 60, 0, 7); g.fill(); });

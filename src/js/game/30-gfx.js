@@ -156,7 +156,8 @@
     for (let k = 0; k < DYN.length; k++) {
       const L = DYN[k], w = k < n ? want[k] : null;
       if (!w) { L.intensity = 0; continue; }
-      toW(w.x, w.y, w.z, L.position); L.color.set(w.c); L.intensity = w.i; L.distance = w.r;
+      // jamais au ras du sol : une source à 60 cm du gazon y brûle une tache blanche au lieu d'éclairer la scène
+      toW(w.x, w.y, Math.max(w.z, 70), L.position); L.color.set(w.c); L.intensity = w.i * 2.2; L.distance = w.r * 1.3;
     }
   }
   let grayT = 0;

@@ -48,8 +48,8 @@
       case 'deflect': vfx('fx_parry', e.x, e.y, 30, { c0: '#ffffff', c2: '#9fd3ff', scale: 0.6, s1: 1.2, life: 0.22 }); break;
       case 'dodge': vfx('fx_parry', e.x, e.y, 30, { c0: '#ffffff', c2: '#7dff9a', scale: 0.7, s1: 1.5, life: 0.3 }); vfx('fx_spinring', e.x, e.y, 3, { c0: '#ffffff', c1: '#7dff9a', scale: 0.8, s1: 2, life: 0.35 }); break;
       case 'kiball': { const c = KICOL[e.t]; vfx('fx_muzzle', e.x, e.y, 30, { c2: c[1], c0: c[0], scale: 0.5, s1: 1.1, life: 0.2, yaw: R() * 6 }); break; }
-      case 'kiboom': { const c = KICOL[e.t]; vfx('fx_dome', e.x, e.y, 0, { c1: c[1], c0: c[0], scale: 0.5, s1: 2.4, life: 0.45, grow: 0.5 }); vfx('fx_burst', e.x, e.y, 30, { c1: c[1], c0: '#ffffff', c2: c[2], scale: 0.7, s1: 1.8, life: 0.3 }); break; }
-      case 'beam': { const c = KICOL[e.t]; vfx('fx_shock_l', e.x, e.y, 0, { c1: c[1], c0: c[0], scale: 1, s1: 4, life: 0.6 }); vfx('fx_dome', e.x, e.y, 0, { c1: c[1], c0: c[0], scale: 0.6, s1: 2.6, life: 0.5 }); crowdHype(e.t, 1, 2); break; }
+      case 'kiboom': { const c = KICOL[e.t]; vfx('fx_dome', e.x, e.y, 0, { c1: c[1], c0: c[0], scale: 0.5, s1: 2.2, life: 0.4, grow: 0.4, int: 0.6 }); vfx('fx_burst', e.x, e.y, 30, { c1: c[1], c0: '#ffffff', c2: c[2], scale: 0.7, s1: 1.8, life: 0.3 }); break; }
+      case 'beam': { const c = KICOL[e.t]; vfx('fx_shock_l', e.x, e.y, 0, { c1: c[1], c0: c[0], scale: 1, s1: 4, life: 0.6 }); vfx('fx_dome', e.x, e.y, 0, { c1: c[1], c0: c[0], scale: 0.6, s1: 2.4, life: 0.45, int: 0.6 }); crowdHype(e.t, 1, 2); break; }
       case 'super': {
         const p = e.i >= 0 && lastV ? lastV.players[e.i] : null, dx = p ? p.fx : 1, dy = p ? p.fy : 0;
         const c = e.uk ? (UCOL[e.uk] || UCOL.upper) : e.u ? ['#ff1e2e', '#ffffff', '#ff6070'] : ['#ff8a1a', '#fff1c2', '#ff3a1a'];
@@ -61,7 +61,7 @@
       case 'fly': vfx('fx_shockcres', e.x, e.y, 34, { c1: '#ff2a1e', c0: '#ffffff', scale: 0.9, s1: 1.6, life: 0.3, yaw: R() * 6 }); break;
       case 'punt': vfx('fx_shock', e.x, e.y, 0, { c1: e.ob ? '#c6ff1a' : '#9fd3ff', c0: '#ffffff', scale: 0.5, s1: 1.8, life: 0.35 }); break;
       case 'tr':
-        if (e.s === 'mur' || e.s === 'blinde') vfx('fx_dome', e.x, e.y, 0, { c1: e.s === 'mur' ? '#9fd3ff' : '#c6ff1a', c0: '#ffffff', scale: 0.8, s1: 1.8, life: 0.4 });
+        if (e.s === 'mur' || e.s === 'blinde') vfx('fx_dome', e.x, e.y, 0, { c1: e.s === 'mur' ? '#9fd3ff' : '#c6ff1a', c0: '#ffffff', scale: 0.8, s1: 1.8, life: 0.4, int: 0.8 });
         else if (e.s === 'berserk') vfx('fx_burst_l', e.x, e.y, 40, { c1: '#ff2a1e', c0: '#ffd0c0', c2: '#ff2a1e', scale: 0.8, s1: 2.2, life: 0.4 });
         else if (e.s === 'poing' || e.s === 'scorpion') vfx('fx_burst', e.x, e.y, 60, { c1: '#ff6a3a', c0: '#ffffff', c2: '#ffd23a', scale: 0.7, s1: 1.6, life: 0.25 });
         else if (e.s === 'transe') vfx('fx_charge', e.x, e.y, 40, { c1: '#a66bff', c0: '#ffffff', scale: 0.6, s1: 1.4, life: 0.5 });

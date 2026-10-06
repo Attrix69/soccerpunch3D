@@ -123,7 +123,7 @@
         if (n !== app.lastCount && n >= 1 && n <= 3) { app.lastCount = n; AU.beep(660, 0.14); AU.call(String(n)); }
       }
       if (V.phase === 'end') {
-        if (!app.endShown) { app.endT += dt; if (app.endT > 1.6) { app.endShown = true; showEnd(V); } }
+        if (!app.endShown) { app.endT += dt; if (app.endT > 3) { app.endShown = true; showEnd(V); } } // 3 s : on laisse le temps de voir la fête en 3D
       } else { app.endT = 0; if (app.endShown) { app.endShown = false; hideScr('end'); } }
     }
   }
